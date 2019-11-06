@@ -9,6 +9,6 @@ int main() {
         std::cout << "Error";
     }
     while(myFile.read((char*) (&i1), sizeof(i1))) {
-		std::cout << (int) i1 << std::endl; //Convertir le int8_t en int est obligatoire pour l'affichage
-	}
+	std::cout << (int) i1 << std::endl; //Convertir le int8_t en int est obligatoire pour l'affichage
+    }
 }
