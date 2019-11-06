@@ -8,7 +8,9 @@ int main() {
     if (!myFile) {
         std::cout << "Error";
     }
-    while(myFile.read((char*) (&i1), sizeof(i1))) {
-	std::cout << (int) i1 << std::endl; //Convertir le int8_t en int est obligatoire pour l'affichage
+    else {
+        while(myFile.read((char*) (&i1), sizeof(i1))) {
+	    std::cout << (int) i1 << std::endl; //Convertir le int8_t en int est obligatoire pour l'affichage
+	}
     }
 }
