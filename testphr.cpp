@@ -31,3 +31,6 @@ int main()
 	fichier.close();
 	return 0;
 }
+
+//Premier byte donne 30 et le deuxième donne 80.
+//Sur le PDF on voit que si ca commmence par 3080 il s'agit d'un début de séquence.
