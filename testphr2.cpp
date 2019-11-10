@@ -39,7 +39,7 @@ int main()
 		cout << hex << (unsigned int)(unsigned char) version7 << endl;
 		cout << hex << (unsigned int)(unsigned char) version8 << endl;
 		title = new char[version8]; 	
-		fichier.read(title, sizeof(title));
+		fichier.read(title, version8);
 		cout << title << endl;
 
 	}
