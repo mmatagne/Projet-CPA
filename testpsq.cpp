@@ -2,10 +2,104 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
+
 
 using namespace std;
 
+int convertir(char A){
+	if(A=='-'){
+		return 0;
+		}
+	if(A=='A'){
+		return 1;
+		}
+	if(A=='B'){
+		return 2;
+		}
+	if(A=='C'){
+		return 3;
+		}
+	if(A=='D'){
+		return 4;
+		}
+	if(A=='E'){
+		return 5;
+		}
+	if(A=='F'){
+		return 6;
+		}
+	if(A=='G'){
+		return 7;
+		}
+	if(A=='H'){
+		return 8;
+		}
+	if(A=='I'){
+		return 9;
+		}
+	if(A=='J'){
+		return 27;
+		}
+	if(A=='K'){
+		return 10;
+		}
+	if(A=='L'){
+		return 11;
+		}
+	if(A=='M'){
+		return 12;
+		}
+	if(A=='N'){
+		return 13;
+		}
+	if(A=='O'){
+		return 26;
+		}
+	if(A=='P'){
+		return 14;
+		}
+	if(A=='Q'){
+		return 15;
+		}
+	if(A=='R'){
+		return 16;
+		}
+	if(A=='S'){
+		return 17;
+		}
+	if(A=='T'){
+		return 18;
+		}
+	if(A=='U'){
+		return 24;
+		}
+	if(A=='V'){
+		return 19;
+		}
+	if(A=='W'){
+		return 20;
+		}
+	if(A=='X'){
+		return 21;
+		}
+	if(A=='Y'){
+		return 22;
+		}
+	if(A=='Z'){
+		return 23;
+		}
+	if(A=='*'){
+		return 25;
+		}
+
+}
+
+
 int main() {
+	
+	vector<int> AAValue;
+	
 	ifstream protFile ("P00533.fasta");
 	if (!protFile) 
 	{
@@ -18,9 +112,16 @@ int main() {
 	{
 		if(ch != '\n') 
 		{
-			cout << ch;
+			AAValue.push_back(convertir(ch)); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
+					
 		}
 	}
+	for (int i = 0; i < AAValue.size(); i++) {
+		cout << AAValue.at(i) << ' ';
+		
+	}
+	
+	
     int8_t i1; //Les int8_t sont des int codés sur 8 bits, donc 1 byte (sizeof(i1) = 1).
     std::ifstream myFile ("P00533.fasta.psq", std::ios::in | std::ios::binary);
     if (!myFile) {
