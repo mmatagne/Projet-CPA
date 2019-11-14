@@ -8,90 +8,96 @@
 using namespace std;
 
 int convertir(char A){
-	if(A=='-'){
-		return 0;
-		}
-	if(A=='A'){
-		return 1;
-		}
-	if(A=='B'){
-		return 2;
-		}
-	if(A=='C'){
-		return 3;
-		}
-	if(A=='D'){
-		return 4;
-		}
-	if(A=='E'){
-		return 5;
-		}
-	if(A=='F'){
-		return 6;
-		}
-	if(A=='G'){
-		return 7;
-		}
-	if(A=='H'){
-		return 8;
-		}
-	if(A=='I'){
-		return 9;
-		}
-	if(A=='J'){
-		return 27;
-		}
-	if(A=='K'){
-		return 10;
-		}
-	if(A=='L'){
-		return 11;
-		}
-	if(A=='M'){
-		return 12;
-		}
-	if(A=='N'){
-		return 13;
-		}
-	if(A=='O'){
-		return 26;
-		}
-	if(A=='P'){
-		return 14;
-		}
-	if(A=='Q'){
-		return 15;
-		}
-	if(A=='R'){
-		return 16;
-		}
-	if(A=='S'){
-		return 17;
-		}
-	if(A=='T'){
-		return 18;
-		}
-	if(A=='U'){
-		return 24;
-		}
-	if(A=='V'){
-		return 19;
-		}
-	if(A=='W'){
-		return 20;
-		}
-	if(A=='X'){
-		return 21;
-		}
-	if(A=='Y'){
-		return 22;
-		}
-	if(A=='Z'){
-		return 23;
-		}
-	if(A=='*'){
-		return 25;
-		}
+	
+	switch(A){
+		
+		case '-':
+			return 0;
+			
+		case 'A':
+			return 1;
+			
+		case 'B':
+			return 2;
+			
+		case 'C':
+			return 3;
+			
+		case 'D':
+			return 4;
+			
+		case 'E':
+			return 5;
+			
+		case 'F':
+			return 6;
+			
+		case 'G':
+			return 7;
+			
+		case 'H':
+			return 8;
+			
+		case 'I':
+			return 9;
+			
+		case 'J':
+			return 27;
+			
+		case 'K':
+			return 10;
+			
+		case 'L':
+			return 11;
+			
+		case 'M':
+			return 12;
+			
+		case 'N':
+			return 13;
+			
+		case 'O':
+			return 26;
+			
+		case 'P':
+			return 14;
+			
+		case 'Q':
+			return 15;
+			
+		case 'R':
+			return 16;
+			
+		case 'S':
+			return 17;
+			
+		case 'T':
+			return 18;
+			
+		case 'U':
+			return 24;
+			
+		case 'V':
+			return 19;
+			
+		case 'W':
+			return 20;
+			
+		case 'X':
+			return 21;
+			
+		case 'Y':
+			return 22;
+			
+		case 'Z':
+			return 23;
+			
+		case '*':
+			return 25;
+		
+
+	
+	}
 
 }
 
