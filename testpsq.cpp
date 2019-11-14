@@ -99,6 +99,7 @@ int convertir(char A){
 int main() {
 	
 	vector<int> AAValue;
+	vector<int8_t> AAValue8; 
 	
 	ifstream protFile ("P00533.fasta");
 	if (!protFile) 
@@ -113,11 +114,16 @@ int main() {
 		if(ch != '\n') 
 		{
 			AAValue.push_back(convertir(ch)); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
-					
+			AAValue8.push_back(convertir(ch)); //on stock ces mêmes valeurs de int dans un vecteur qui les transformera directement en binaire		
 		}
 	}
-	for (int i = 0; i < AAValue.size(); i++) {
+	for (int i = 0; i < AAValue.size(); i++) {  //on imprime tous les int contenus dans le vecteur
 		cout << AAValue.at(i) << ' ';
+		
+	}
+	
+	for (int i = 0; i < AAValue8.size(); i++) {  //imprime les éléments du vecteur binaire
+		cout << AAValue8.at(i);
 		
 	}
 	
