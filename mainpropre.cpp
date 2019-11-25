@@ -5,6 +5,8 @@
 #include <vector>
 #include "proteine.h"
 #include "input.h"
+#include "sequence.h"
+#include "header.h"
 
 
 using namespace std;
@@ -102,7 +104,8 @@ int convertir(char A){
 
 
 int main() {
-	ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
+	//ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
+	Header phr("uniprot_sprot.fasta.phr");
 	 
 	//char* title2;
 	Input pin("uniprot_sprot.fasta.pin"); 
@@ -219,6 +222,26 @@ int main() {
 			}
 			data.push_back((int)i1);
 		} */
+
+
+	Proteine protref("Inconnu",AAValue);
+	
+    Sequence psq("uniprot_sprot.fasta.psq");
+    for(int i2 = 0; i2 < pin.getNbSequences();i2++)
+    {	
+		title2 = phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[i2]));
+		Proteine prot("currentprot",{});
+		vector<int> data;
+		data = psq.getSequence();
+		
+		prot.setData(data);
+		if(prot==protref)
+		{
+			prot.setName(title2);
+			cout << title2 << endl;
+			return 0;
+		}
+    //3d2ffe424a8cee6d4b55a94783752e6badaec8da
 	}
 	
 }
