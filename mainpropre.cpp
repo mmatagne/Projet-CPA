@@ -6,6 +6,7 @@
 #include "proteine.h"
 #include "input.h"
 #include "sequence.h"
+#include "header.h"
 
 
 using namespace std;
@@ -103,7 +104,8 @@ int convertir(char A){
 
 
 int main() {
-	ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
+	//ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
+	Header phr("uniprot_sprot.fasta.phr");
 	 
 	char* title2;
 	Input pin("uniprot_sprot.fasta.pin"); 
@@ -128,67 +130,13 @@ int main() {
 			AAValue8.push_back(convertir(ch)); //on stock ces mêmes valeurs de int dans un vecteur qui les transformera directement en binaire		
 		}
 	}
-	for (int i = 0; i < AAValue.size(); i++) {  //on imprime tous les int contenus dans le vecteur
-		//cout << AAValue.at(i) << ' ';
-	}
-	
-	for (int i = 0; i < AAValue8.size(); i++) {  //imprime les éléments du vecteur binaire
-		//cout << AAValue8.at(i);
-		
-	}
+
 	Proteine protref("Inconnu",AAValue);
 	
-	
-	int nbSequences = pin.getNbSequences();
-	
-	//Les int8_t sont des int codés sur 8 bits, donc 1 byte (sizeof(i1) = 1).
-    //ifstream psq ("uniprot_sprot.fasta.psq", ios::in | ios::binary);
     Sequence psq("uniprot_sprot.fasta.psq");
-    for(int i2 = 0; i2 < nbSequences;i2++)
+    for(int i2 = 0; i2 < pin.getNbSequences();i2++)
     {	
-		header.seekg(__bswap_32(pin.getHeaderOffsetTable()[i2]));
-		int8_t var;
-		while(header.read( (char*)(&var), sizeof(var)))
-		{
-			//cout << hex << (unsigned int)(unsigned char) var << endl;
-			if((unsigned int)(unsigned char) var == 160) //A0 en hex
-			{
-				int8_t var2;
-				header.read( (char*)(&var2), sizeof(var2));
-				//cout << hex << (unsigned int)(unsigned char) var2 << endl;
-				if((unsigned int)(unsigned char) var2 == 128) //80
-				{
-					int8_t var3;
-					header.read( (char*)(&var3), sizeof(var3));
-					//cout << hex << (unsigned int)(unsigned char) var3 << endl;
-					if((unsigned int)(unsigned char) var3 == 26) //1A
-					{
-						int8_t var4;
-						header.read( (char*)(&var4), sizeof(var4));
-						//cout << hex << (unsigned int)(unsigned char) var4 << endl;
-						//if((unsigned int)(unsigned char) var4 > 128) 
-						//{
-							//int nbBytes = var4-128;
-							
-						//}
-						if((unsigned int)(unsigned char) var4 > 128)
-						{
-							//cout << "Trop long" << endl;
-							//title2 = new char[81];
-							//header.read(title2, var4);
-							//cout << title2 << endl;
-							break;
-						}
-						else {
-							title2 = new char[var4];
-							header.read(title2, var4);
-							//cout << title2 << endl;
-							break;
-						}
-					}
-				}
-			}
-		}
+		title2 = phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[i2]));
 		Proteine prot("currentprot",{});
 		vector<int> data;
 		data = psq.getSequence();
@@ -198,7 +146,6 @@ int main() {
 		{
 			prot.setName(title2);
 			cout << title2 << endl;
-			cout << i2 << endl;
 			return 0;
 		}
 	}
