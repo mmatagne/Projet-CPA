@@ -10,7 +10,7 @@ Header::Header(string phrfile) {
 }
 
 Header::~Header(){
-	
+	phr.close();
 }
 
 char* Header::getTitle(int offset) {
@@ -30,9 +30,22 @@ char* Header::getTitle(int offset) {
 				{
 					int8_t var4;
 					phr.read( (char*)(&var4), sizeof(var4));
+					
 					if((unsigned int)(unsigned char) var4 > 128)
 					{
-						break;
+						int nbBytes = (unsigned int)(unsigned char)var4-128;
+						unsigned long intFound ;
+						int8_t x;
+						intFound = 0;
+						for (int j = 0; j < nbBytes; j++){ 
+							phr.read((char*)&x, 1);
+							intFound = intFound << 8 | (unsigned int)(unsigned char)x; //left shift de 8 cases et OR p/r à la variable x venant d'etre lue
+						}
+						//cout << intFound << endl;
+						title2 = new char[intFound];
+						phr.read(title2, intFound);
+						cout << title2 << endl;
+						return title2;
 					}
 					else {
 						title2 = new char[var4];
