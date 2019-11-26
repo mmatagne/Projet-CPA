@@ -107,7 +107,7 @@ int main() {
 	//ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
 	Header phr("uniprot_sprot.fasta.phr");
 	 
-	//char* title2;
+	char* title2;
 	Input pin("uniprot_sprot.fasta.pin"); 
 	pin.readfile();
 	
@@ -130,99 +130,6 @@ int main() {
 			AAValue8.push_back(convertir(ch)); //on stock ces mêmes valeurs de int dans un vecteur qui les transformera directement en binaire		
 		}
 	}
-	for (int i = 0; i < (int)AAValue.size(); i++) {  //on imprime tous les int contenus dans le vecteur
-		//cout << AAValue.at(i) << ' ';
-	}
-	
-	for (int i = 0; i < (int)AAValue8.size(); i++) {  //imprime les éléments du vecteur binaire
-		//cout << AAValue8.at(i);
-		
-	}
-	Proteine protref("Inconnu",AAValue);
-	
-	
-	int nbSequences = pin.getNbSequences();
-	cout << "Nb sequences : " << nbSequences << endl;
-	
-    int8_t i1; //Les int8_t sont des int codés sur 8 bits, donc 1 byte (sizeof(i1) = 1).
-    std::ifstream psqFile ("uniprot_sprot.fasta.psq", std::ios::in | std::ios::binary);
-    psqFile.read((char*) (&i1), sizeof(i1));
-    for(int i2 = 0; i2 < nbSequences;i2++)
-    {	
-		header.seekg(__bswap_32(pin.getHeaderOffsetTable()[i2]));
-		cout << i2 << endl;
-		int8_t var;
-		while(header.read( (char*)(&var), sizeof(var)))
-		{
-			//cout << hex << (unsigned int)(unsigned char) var << endl;
-			if(var == 160) //A0 en hex
-			{
-				int8_t var2;
-				header.read( (char*)(&var2), sizeof(var2));
-				//cout << hex << (unsigned int)(unsigned char) var2 << endl;
-				if((unsigned int)(unsigned char) var2 == 128) //80
-				{
-					int8_t var3;
-					header.read( (char*)(&var3), sizeof(var3));
-					//cout << hex << (unsigned int)(unsigned char) var3 << endl;
-					if((unsigned int)(unsigned char) var3 == 26) //1A
-					{
-						int8_t var4;
-						header.read( (char*)(&var4), sizeof(var4));
-						//cout << hex << (unsigned int)(unsigned char) var4 << endl;
-						/*
-						if((unsigned int)(unsigned char) var4 > 127) 
-						{
-							cout << i2 << endl;
-							int nbBytes = var4-128;
-							unsigned long intFound ;
-							//reading int
-							int8_t x;
-							intFound = 0;
-							for (int j = 0; j < nbBytes; j++){ 
-								header.read((char*)&x, 1);
-								intFound = intFound << 8 | (unsigned long)x; //left shift de 8 cases et OR p/r à la variable x venant d'etre lue
-								
-							}
-							//title2 = new char[intFound];
-							//header.read(title2, var4);
-							//cout << title2 << endl;
-							//delete title2;
-							break;
-							
-						}
-						
-						else {
-							//title2 = new char[var4];
-							//header.read(title2, var4);
-							//cout << title2 << endl;
-							//delete title2;
-							break;
-						}
-						*/
-						break;
-					}
-				}
-			}
-		}
-		/*
-		Proteine prot("currentprot",{});
-		vector<int> data; 
-		while(psqFile.read((char*) (&i1), sizeof(i1))) {
-			if((int) i1 == 0) 
-			{
-				prot.setData(data);
-				if(prot==protref)
-				{
-					prot.setName(title2);
-					cout << title2 << endl;
-					return 0;
-				}
-				break;
-			}
-			data.push_back((int)i1);
-		} */
-
 
 	Proteine protref("Inconnu",AAValue);
 	
@@ -241,7 +148,6 @@ int main() {
 			cout << title2 << endl;
 			return 0;
 		}
-    //3d2ffe424a8cee6d4b55a94783752e6badaec8da
 	}
-	
 }
+
