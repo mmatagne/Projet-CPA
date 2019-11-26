@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <map>
 using std::vector;
 using std::string;
 using namespace std;
@@ -18,6 +19,8 @@ class Sequence
 	Sequence(string psqfile);
 	~Sequence();
 	vector<int> getSequence();
+	map<char,int> conversion;
+	
 	
 };
 

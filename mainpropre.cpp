@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <map>
 #include "proteine.h"
 #include "input.h"
 #include "sequence.h"
@@ -11,99 +12,42 @@
 
 using namespace std;
 
-int convertir(char A){
-	
-	switch(A){
-		
-		case '-':
-			return 0;
-			
-		case 'A':
-			return 1;
-			
-		case 'B':
-			return 2;
-			
-		case 'C':
-			return 3;
-			
-		case 'D':
-			return 4;
-			
-		case 'E':
-			return 5;
-			
-		case 'F':
-			return 6;
-			
-		case 'G':
-			return 7;
-			
-		case 'H':
-			return 8;
-			
-		case 'I':
-			return 9;
-			
-		case 'J':
-			return 27;
-			
-		case 'K':
-			return 10;
-			
-		case 'L':
-			return 11;
-			
-		case 'M':
-			return 12;
-			
-		case 'N':
-			return 13;
-			
-		case 'O':
-			return 26;
-			
-		case 'P':
-			return 14;
-			
-		case 'Q':
-			return 15;
-			
-		case 'R':
-			return 16;
-			
-		case 'S':
-			return 17;
-			
-		case 'T':
-			return 18;
-			
-		case 'U':
-			return 24;
-			
-		case 'V':
-			return 19;
-			
-		case 'W':
-			return 20;
-			
-		case 'X':
-			return 21;
-			
-		case 'Y':
-			return 22;
-			
-		case 'Z':
-			return 23;
-			
-		case '*':
-			return 25;
-	}
-	return 0;
-}
+
 
 
 int main() {
+	
+	map<char,int> conversion;
+	conversion['-']=0;
+	conversion['A']=1;
+	conversion['B']=2;
+	conversion['C']=3;
+	conversion['D']=4;
+	conversion['E']=5;
+	conversion['F']=6;
+	conversion['G']=7;
+	conversion['H']=8;
+	conversion['I']=9;
+	conversion['J']=27;
+	conversion['K']=10;
+	conversion['L']=11;
+	conversion['M']=12;
+	conversion['N']=13;
+	conversion['O']=26;
+	conversion['P']=14;
+	conversion['Q']=15;
+	conversion['R']=16;
+	conversion['S']=17;
+	conversion['T']=18;
+	conversion['U']=24;
+	conversion['V']=19;
+	conversion['W']=20;
+	conversion['X']=21;
+	conversion['Y']=22;
+	conversion['Z']=23;
+	conversion['*']=25;
+	
+	
 	//ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
 	Header phr("uniprot_sprot.fasta.phr");
 	 
@@ -126,8 +70,8 @@ int main() {
 	{
 		if(ch != '\n') 
 		{
-			AAValue.push_back(convertir(ch)); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
-			AAValue8.push_back(convertir(ch)); //on stock ces mêmes valeurs de int dans un vecteur qui les transformera directement en binaire		
+			AAValue.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
+			AAValue8.push_back(conversion[ch]); //on stock ces mêmes valeurs de int dans un vecteur qui les transformera directement en binaire		
 		}
 	}
 
