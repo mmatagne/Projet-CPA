@@ -6,6 +6,7 @@
 #include <map>
 #include "proteine.h"
 #include "input.h"
+#include "bddsequences.h"
 #include "sequence.h"
 #include "header.h"
 
@@ -46,14 +47,16 @@ int main() {
 	conversion['Y']=22;
 	conversion['Z']=23;
 	conversion['*']=25;
-	
-	
-	//ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
+	ifstream header("uniprot_sprot.fasta.phr", ios::in | ios::binary);
 	Header phr("uniprot_sprot.fasta.phr");
-	 
-	char* title2;
+	
+	
 	Input pin("uniprot_sprot.fasta.pin"); 
 	pin.readfile();
+	/*
+	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
+	BDDSequences sequences("uniprot_sprot.fasta.psq", sizedb);
+	*/
 	
 	vector<int> AAValue;
 	vector<int8_t> AAValue8; 
@@ -80,7 +83,7 @@ int main() {
     Sequence psq("uniprot_sprot.fasta.psq");
     for(int i2 = 0; i2 < pin.getNbSequences();i2++)
     {	
-		title2 = phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[i2]));
+		
 		Proteine prot("currentprot",{});
 		vector<int> data;
 		data = psq.getSequence();
@@ -88,8 +91,8 @@ int main() {
 		prot.setData(data);
 		if(prot==protref)
 		{
-			prot.setName(title2);
-			cout << title2 << endl;
+			prot.setName(phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[i2])));
+			cout << prot.getName() << endl;
 			return 0;
 		}
 	}

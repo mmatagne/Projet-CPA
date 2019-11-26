@@ -34,11 +34,16 @@ void Input::readfile() {
 	sequenceOffsetTable = new int[nbSequences+1];
 	file.read( (char*)(headerOffsetTable), sizeof(int)*(nbSequences+1) );
 	file.read( (char*)(sequenceOffsetTable), sizeof(int)*(nbSequences+1) );
+	file.close();
 }
 
 
 int* Input::getHeaderOffsetTable() {
 	return headerOffsetTable;
+}
+
+int* Input::getSequenceOffsetTable() {
+	return sequenceOffsetTable;
 }
 
 int Input::getNbSequences() {

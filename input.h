@@ -26,5 +26,6 @@ class Input
 	~Input();
 	void readfile();
 	int* getHeaderOffsetTable();
+	int* getSequenceOffsetTable();
 	int getNbSequences();
 };
