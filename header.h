@@ -10,7 +10,7 @@ class Header
 	private:
 	string filename;
 	ifstream phr;
-	char* title;
+	char* title2;
 	
 	public:
 	Header(string phrfile);
