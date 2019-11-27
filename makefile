@@ -1,4 +1,4 @@
-all : input.o sequence.o proteine.o header.o mainpropre.cpp
+all : input.o bddsequences.o sequence.o proteine.o header.o mainpropre.cpp
 	g++ -o out input.o sequence.o bddsequences.o proteine.o header.o mainpropre.cpp 
 input.o: input.cpp
 	g++ -c input.cpp
