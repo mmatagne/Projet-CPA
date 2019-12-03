@@ -99,40 +99,110 @@ int main() {
 	 * une fois qu'on a fini de faire la matrice M. 
 	*/ 
 	
+	int open_pen = 11;
+	int ext_pen = 1;
+	
     for(int k = 0; k < pin.getNbSequences()-1;k++)
     {	
-		int M[__bswap_32(pin.getSequenceOffsetTable()[k+1]) - __bswap_32(pin.getSequenceOffsetTable()[k])][sizeref];
-		M[0][0] = blosum[table[__bswap_32(pin.getSequenceOffsetTable()[k])],AAValue[0]];
-		for(int j = __bswap_32(pin.getSequenceOffsetTable()[k]); j < __bswap_32(pin.getSequenceOffsetTable()[k+1]); j++)
+		int globalmax_i, globalmax_j;
+		int offsetEnd = __bswap_32(pin.getSequenceOffsetTable()[k+1]);
+		int offsetBegin = __bswap_32(pin.getSequenceOffsetTable()[k]);
+		int M[offsetEnd - offsetBegin +1][sizeref +1];
+		int MEMO[offsetEnd - offsetBegin +1][sizeref +1];
+		//M[1][1] = blosum[table[__bswap_32(pin.getSequenceOffsetTable()[k])],AAValue[0]];
+		for(int i = 0; i < offsetEnd - offsetBegin +1;i++)
 		{
-			for (int i = 0; i < sizeref; i++)
+			M[i][0] = 0;
+		}
+		for(int j = 0; j < sizeref +1;j++)
+		{
+			M[0][j] = 0;
+		}
+		
+		int[offsetEnd-offsetBegin] max_colonne = {0}; //Attention on commence bien à 0 ici pour la premiere colonne de la matrice.
+		
+		for(int i = 1; i < offsetEnd-offsetBegin +1; i++)
+		{
+			int max_ligne = 0;
+			for (int j = 1; i < sizeref+1; i++)
 			{
-				M[i,j] = getMax(&M,i,j);
+				int a;
+				if(M[i-1][j]-open_pen < max_colonne[j-1]-ext_pen)
+				{
+					a = max_colonne[j-1]-ext_pen;
+				}
+				else
+				{
+					a = M[i-1][j]-open_pen;
+					max_colonne[j-1] = a;
+				}
+					
+				int b;
+				if(M[i][j-1]-open_pen < max_ligne-ext_pen)
+				{
+					b = max_ligne-ext_pen;
+				}
+				else
+				{
+					b = M[i][j-1]-open_pen;
+					max_ligne = b;
+				}
+				
+				int value;
+				
+				if(M[i-1][j-1] + blosum[table[offsetBegin+i],AAValue[j]] < 0 && a < 0 && b < 0)
+				{
+					value = 0;
+					MEMO[i][j] = 0;
+				}
+				else if (a < M[i-1][j-1] + blosum[table[offsetBegin+i],AAValue[j]] && n < M[i-1][j-1] + blosum[table[offsetBegin+i],AAValue[j]])
+				{
+					value = M[i-1][j-1] + blosum[table[offsetBegin+i],AAValue[j]];
+					MEMO[i][j] = 1;
+				}
+				else if (a < b)
+				{
+					value = b;
+					MEMO[i][j] = 2;
+				}
+				else
+				{
+					value = a;
+					MEMO[i][j] = 3;
+				}
+				M[i][j] = value;
+				if(M[globalmax_i][globalmax_j] < value)
+				{
+					globalmax_i = i;
+					globalmax_j = j;
+				}
 			}
 		}
+		int score = M[globalmax_i][globalmax_j];
 	}
 }
 
-
-
-int getMax(int* M,int i, int j) //max(0,M[i-1][j-1] + blosum[table[i],AAValue[j]],M[i-1][j] + penalite,M[i][j-1] + penalite)
+int getMax(int* M,int* MEMO,int a, int b) //max(0,M[i-1][j-1] + blosum[table[i],AAValue[j]],M[i-1][j] + penalite,M[i][j-1] + penalite)
 {
-	int penalite = -3;
-	if (M[i-1][j-1] + blosum[table[i],AAValue[j]] < 0 && M[i-1][j] + penalite < 0 && M[i][j-1] + penalite < 0)
+	if(M[i-1][j-1] + blosum[table[i],AAValue[j]] < 0 && a < 0 && b < 0)
 	{
+		MEMO[i][j] = 0;
 		return 0
 	}
-	else if (M[i-1][j] + penalite < M[i-1][j-1] + blosum[table[i],AAValue[j]] && M[i][j-1] + penalite < M[i-1][j-1] + blosum[table[i],AAValue[j]])
+	else if (a < M[i-1][j-1] + blosum[table[i],AAValue[j]] && n < M[i-1][j-1] + blosum[table[i],AAValue[j]])
 	{
+		MEMO[i][j] = 1;
 		return M[i-1][j-1] + blosum[table[i],AAValue[j]];
 	}
-	else if (M[i-1][j] + penalite < M[i][j-1] + penalite)
+	else if (a < b)
 	{
-		return M[i][j-1] + penalite;
+		MEMO[i][j] = 2;
+		return b;
 	}
 	else
 	{
-		return M[i-1][j] + penalite;
+		MEMO[i][j] = 3;
+		return a;
 	}
 }
 
