@@ -11,7 +11,7 @@ Sequence::Sequence(string psqfile) {
 	psq.read((char*) (&i1), sizeof(i1));
 }
 Sequence::~Sequence(){
-	psq.close();
+	
 }
 
 vector<int> Sequence:: getSequence(){

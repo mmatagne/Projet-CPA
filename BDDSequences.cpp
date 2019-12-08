@@ -1,4 +1,4 @@
-#include "bddsequences.h"
+#include "BDDSequences.h"
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -65,7 +65,3 @@ BDDSequences::~BDDSequences(){
 char* BDDSequences::getTable(){
 	return table;
 }
-
-
-
-
