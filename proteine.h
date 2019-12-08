@@ -2,28 +2,22 @@
 #define PROTEINE_H
 #include <string>
 #include <vector>
-using std::vector;
-using std::string;
+#include <forward_list>
+
+using namespace std;
 
 class Proteine
 {
 	private:
-	string name;
-	vector<int> data;
-	
+	int protNb;
+	forward_list<int> listeInconnue;
+	forward_list<int> listeDb;
 	
 	public:
-	Proteine(string new_name, vector<int> data);
+	Proteine(int new_protNb, forward_list<int> new_listeInconnue, forward_list<int> new_listeDb);
 	~Proteine();
-	void setName(string new_name);
-	void setData(vector<int> new_data);
-	string getName() const;
-	vector<int> getData() const;
-	int getLength() const;
-	bool operator==(const Proteine &protDroite) const;
-	
-	
-	
+	int getNb() const;
+	void printResult();
 };
 
 	
