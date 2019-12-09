@@ -32,4 +32,4 @@ void Matrice::create_matrice() {
 int* Matrice::getMatrice() {
 	return matrice;
 }
-* /
+*/
