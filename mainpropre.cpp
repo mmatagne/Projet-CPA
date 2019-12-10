@@ -53,11 +53,11 @@ int main() {
 	
 	Input pin("uniprot_sprot.fasta.pin"); 
 	pin.readfile();
-	/*
+	
 	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
 	BDDSequences sequences("uniprot_sprot.fasta.psq", sizedb);
-	*/
 	
+	/*
 	vector<int> AAValue;
 	vector<int8_t> AAValue8; 
 	
@@ -96,5 +96,6 @@ int main() {
 			return 0;
 		}
 	}
+	*/
 }
 

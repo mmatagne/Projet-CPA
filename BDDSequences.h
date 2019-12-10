@@ -17,7 +17,8 @@ class BDDSequences
 	public:
 	BDDSequences(string db_psqfile, int db_size);
 	~BDDSequences();
-	map<char,int> conversion;
+	const static map<char,int> conversion;
+	//const static map<char,int> &getConversionMap() const;
 	char* getTable();
 	
 	
