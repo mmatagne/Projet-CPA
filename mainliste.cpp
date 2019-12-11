@@ -82,35 +82,6 @@ int main(int argc, char **argv) {
 	conversion['*']=25;
 	
 	
-	/*int blosum[27][27] = {
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	0,1,5,4,2,4,1,0,9,7,0,8,6,8,0,0,8,5,3,1,9,1,0,9,8,9,5,
-	};*/
 	
 	Matrice matscore("BLOSUM62.txt");
 	int blosum[28][28];
@@ -168,132 +139,96 @@ int main(int argc, char **argv) {
 	int size_vect = 0; //Nombre de proténies présentes dans le vecteur
 	
 	int count = 0;
+	int sauve = 0;
 	
-    for(int k = 0; k < pin.getNbSequences();k++)
-    //for(int k = 2958; k < 2961  ;k++)
+	int nbseq = pin.getNbSequences();
+	
+    //for(int k = 0; k < nbseq;k++)
+    for(int k = 2958; k < 2959;k++)
     //2958:6525, 2959:5957
     {	
 		int globalmax_i = 0;
 		int globalmax_j = 0;
+		int maximum = 0;
 		int offsetEnd = __bswap_32(pin.getSequenceOffsetTable()[k+1]);
 		int offsetBegin = __bswap_32(pin.getSequenceOffsetTable()[k]);
 		
-
-	
-		vector<vector<int>> M((offsetEnd - offsetBegin +1), vector<int> (sizeref+1));
-		//vector<vector<int>> MEMO((offsetEnd - offsetBegin +1), vector<int> (sizeref+1));
+		int T[sizeref+1] = {};
 		
-		//int M[offsetEnd - offsetBegin +1][sizeref+1];
-		//int MEMO[offsetEnd - offsetBegin +1][sizeref+1];
+		int max_colonne[sizeref] = {0}; 
 		
-		//int **M = new int*[offsetEnd-offsetBegin+1];
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
-			//M[i] = new int[sizeref+1];
-		//}
-		//int **MEMO = new int*[offsetEnd-offsetBegin+1];
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
-			//MEMO[i] = new int[sizeref+1];
-		//}
-		
-		for(int i = 0; i < offsetEnd - offsetBegin +1;i++)
-		{
-			M[i][0] = 0;
-			//MEMO[i][0] = 0;
-		}
-		for(int j = 0; j < sizeref +1;j++)
-		{
-			M[0][j] = 0;
-			//MEMO[0][j] = 0;
-		}
-		
-		int max_colonne[sizeref] = {0}; //Attention on commence bien à 0 ici pour la premiere colonne de la matrice.
-		
-		for(int i = 1; i < offsetEnd-offsetBegin +1; i++)
+		for(int i = 1; i < offsetEnd-offsetBegin; i++)
 		{
 			int max_ligne = 0;
 			for (int j = 1; j < sizeref+1; j++)
 			{
 				int a;
-
-				
-				if(M[i-1][j]-open_pen < max_colonne[j-1]-ext_pen)
+					
+				if(T[j]-open_pen < max_colonne[j-1]-ext_pen)
 				{
 					a = max_colonne[j-1]-ext_pen;
 				}
 				
 				else
 				{
-					a = M[i-1][j]-open_pen;
+					a = T[j]-open_pen;
 					max_colonne[j-1] = a;
 				}
 				
 				max_colonne[j-1] = max_colonne[j-1] - ext_pen;
 				
 				int b;
-				if(M[i][j-1]-open_pen < max_ligne-ext_pen)
+				if(T[j-1]-open_pen < max_ligne-ext_pen)
 				{
 					b = max_ligne-ext_pen;
 				}
 				
 				else
 				{
-					b = M[i][j-1]-open_pen;
+					b = T[j-1]-open_pen;
 					max_ligne = b;
 				}
 				
 				max_ligne = max_ligne - ext_pen;
-
-
 				
 				int value;
 				
-				if(M[i-1][j-1] + blosum[(int)table[offsetBegin+i]][AAValue[j-1]] < 0 && a < 0 && b < 0) //Check si il faut pas mettre offsetBegin+i-1
+				if(sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] < 0 && a < 0 && b < 0)
 				{
 					value = 0;
-					//MEMO[i][j] = 0;
 				}
 				
-				else if (a < M[i-1][j-1] + blosum[(int)table[offsetBegin+i]][AAValue[j-1]] && b < M[i-1][j-1] + blosum[(int)table[offsetBegin+i]][AAValue[j-1]])
+				else if (a < sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] && b < sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]])
 				{
-					value = M[i-1][j-1] + blosum[(int)table[offsetBegin+i]][AAValue[j-1]];
-					//MEMO[i][j] = 1;
+					value = sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]];
 				}
 				
 				else if (a < b)
 				{
 					value = b;
-					//MEMO[i][j] = 2;
 				}
 				else
 				{
 					value = a;
-					//MEMO[i][j] = 3;
 				}
+				sauve = T[j];
+				T[j] = value;
 				
-				M[i][j] = value;
-				
-				if(M[globalmax_i][globalmax_j] < value)
+				if(maximum < value)
 				{
+					maximum = value;
 					globalmax_i = i;
 					globalmax_j = j;
 				}
+				
+
 			}
 		}
-		/*for(int i = 1; i < offsetEnd-offsetBegin +1; i++)
-		{
-			for (int j = 1; j < sizeref+1; j++)
-			{
-				cout << i << endl;
-				cout << j << endl;
-				cout << MEMO[i][j] << endl;
-				cout << "ok" << endl;
-			}
-		}*/
 		
-		int score = M[globalmax_i][globalmax_j];
-		//cout << "Score : " << score << endl;
+		int score = maximum;
+		cout << "Score : " << score << endl;
 		int sbit = (0.267*score	+ 3.34)/0.69314718056;
-		//cout << "Score normalisé : " << sbit << endl;
+		cout << "Score normalisé : " << sbit << endl;
 		
 		/*
 		if(score > score_min) //cas où on doit faire le traceback
@@ -365,20 +300,16 @@ int main(int argc, char **argv) {
 				score_min = min;
 			}
 		}*/
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
-			//delete [] M[i];
-		//}
-		//delete [] M;
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
+		/*for(int i = 0; i < offsetEnd-offsetBegin; ++i) {
+			delete [] M[i];
+		}
+		delete [] M;*/
+		//for(int i = 0; i < offsetEnd-offsetBegin; ++i) {
 			//delete [] MEMO[i];
 		//}
 		//delete [] MEMO;
 	}
-	/*for(int i = 0; i < 10; i++)
-	{
-		cout << protVect[i]->getScore() << endl;
-		cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[protVect[i]->getNb()])) << endl;
-	}*/
+	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
 }
 
 
