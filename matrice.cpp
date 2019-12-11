@@ -27,16 +27,16 @@ void Matrice::create_matrice() {
 		while(fichier >> noskipws >> ch) 
 		{
 			//AA_order[k] = ch;
-			
+
 			if(ch == '\n')break;
 			if(ch != ' '){
 				AA_order[k] = ch;
-				cout << AA_order[k] << " " ;
+				//cout << AA_order[k] << " " ;
 				k++;
 			}
 			
 		}
-		cout<<endl;
+		//cout<<endl;
 		
 		string line;
 		int i = 0;
@@ -59,19 +59,21 @@ void Matrice::create_matrice() {
 		}
 		
 		
-		/* AFFICHAGE MATRICE POUR VERIFICATION
+		/*
 		for(int i = 0; i<k;i++){
 			for(int j = 0; j<k; j++){
 				cout<<matrice[i][j]<<" ";
 			}
-			
-		}
-		*/
+			cout<<endl;
+
+		}*/
+		
 		fichier.close();
 	}
 	else {
 		cout << "[Matrice] Impossible d'ouvrir le fichier matrice" << endl;
 	}
+
 }
 
 /*
