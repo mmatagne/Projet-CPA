@@ -13,13 +13,13 @@ class BDDSequences
 	private:
 	char* table;
 	string filename;
+	const static map<char,int> conversion;
 	
 	public:
 	BDDSequences(string db_psqfile, int db_size);
 	~BDDSequences();
-	const static map<char,int> conversion;
-	//const static map<char,int> &getConversionMap() const;
-	char* getTable();
+	const static map<char,int>& getConversionMap(); 
+	const char* getTable();
 	
 	
 };

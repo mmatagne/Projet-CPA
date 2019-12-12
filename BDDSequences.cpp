@@ -93,11 +93,11 @@ const map<char, int> BDDSequences::conversion = {
 	{'*', 25 },
 };
 
-/*
-const static map<char,int> BDDSequences::getConversionMap() const{
+
+const map<char,int>& BDDSequences::getConversionMap(){
 	return conversion;
 }
-*/
-char* BDDSequences::getTable(){
+
+const char* BDDSequences::getTable(){
 	return table;
 }
