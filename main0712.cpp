@@ -155,7 +155,7 @@ int main(int argc, char **argv) {
 	
 
 	char* table;
-	table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
+	//table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
 	table = sequences.getTable();
 	int sizeref = AAValue.size();
 	
@@ -169,8 +169,8 @@ int main(int argc, char **argv) {
 	
 	int count = 0;
 	
-    for(int k = 0; k < pin.getNbSequences();k++)
-    //for(int k = 2958; k < 2961  ;k++)
+    //for(int k = 0; k < pin.getNbSequences();k++)
+    for(int k = 2958; k < 2961  ;k++)
     //2958:6525, 2959:5957
     {	
 		int globalmax_i = 0;
@@ -180,16 +180,16 @@ int main(int argc, char **argv) {
 		
 
 	
-		vector<vector<int>> M((offsetEnd - offsetBegin +1), vector<int> (sizeref+1));
+		//vector<vector<int>> M((offsetEnd - offsetBegin +1), vector<int> (sizeref+1));
 		//vector<vector<int>> MEMO((offsetEnd - offsetBegin +1), vector<int> (sizeref+1));
 		
 		//int M[offsetEnd - offsetBegin +1][sizeref+1];
 		//int MEMO[offsetEnd - offsetBegin +1][sizeref+1];
 		
-		//int **M = new int*[offsetEnd-offsetBegin+1];
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
-			//M[i] = new int[sizeref+1];
-		//}
+		int **M = new int*[offsetEnd-offsetBegin+1];
+		for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
+			M[i] = new int[sizeref+1];
+		}
 		//int **MEMO = new int*[offsetEnd-offsetBegin+1];
 		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
 			//MEMO[i] = new int[sizeref+1];
@@ -365,10 +365,10 @@ int main(int argc, char **argv) {
 				score_min = min;
 			}
 		}*/
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
-			//delete [] M[i];
-		//}
-		//delete [] M;
+		for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
+			delete [] M[i];
+		}
+		delete [] M;
 		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
 			//delete [] MEMO[i];
 		//}
