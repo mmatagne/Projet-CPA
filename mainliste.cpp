@@ -51,51 +51,23 @@ int main(int argc, char **argv) {
 	pin.readfile();
 	Header phr("newE.fasta.phr");
 	
-	map<char,int> conversion;
-	conversion['-']=0;
-	conversion['A']=1;
-	conversion['B']=2;
-	conversion['C']=3;
-	conversion['D']=4;
-	conversion['E']=5;
-	conversion['F']=6;
-	conversion['G']=7;
-	conversion['H']=8;
-	conversion['I']=9;
-	conversion['J']=27;
-	conversion['K']=10;
-	conversion['L']=11;
-	conversion['M']=12;
-	conversion['N']=13;
-	conversion['O']=26;
-	conversion['P']=14;
-	conversion['Q']=15;
-	conversion['R']=16;
-	conversion['S']=17;
-	conversion['T']=18;
-	conversion['U']=24;
-	conversion['V']=19;
-	conversion['W']=20;
-	conversion['X']=21;
-	conversion['Y']=22;
-	conversion['Z']=23;
-	conversion['*']=25;
-	
+	map<char,int> conversion = BDDSequences::getConversionMap();
 	
 	
 	Matrice matscore("BLOSUM62.txt");
 	int blosum[28][28];
 	memcpy(blosum,matscore.matrice,28*28*sizeof(int));
+	//int** blosum = matscore.matrice;
 	
 	
 	//Matrice matscore(argv...);
 	//blosum = matscore.getMatrice();
 	//blosum = [...................] Déclarer la matrice BLOSUM ici.
 	
-	vector<int> AAValue;
-	vector<int8_t> AAValue8; 
+	vector<int> AAValue_vector;
+	//vector<int8_t> AAValue8; 
 	
-	char* protFileName = argv[1];
+	//char* protFileName = argv[1];
 	
 	ifstream protFile ("P00533.fasta");
 	
@@ -112,7 +84,7 @@ int main(int argc, char **argv) {
 	{
 		if(ch != '\n') 
 		{
-			AAValue.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
+			AAValue_vector.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
 		}
 	}
 
@@ -125,10 +97,11 @@ int main(int argc, char **argv) {
 	
 	
 
+	int* AAValue = &AAValue_vector[0];
 	char* table;
-	table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
+	//table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
 	table = sequences.getTable();
-	int sizeref = AAValue.size();
+	int sizeref = AAValue_vector.size();
 	
 	int open_pen = 11;
 	int ext_pen = 1;
@@ -144,7 +117,7 @@ int main(int argc, char **argv) {
 	int nbseq = pin.getNbSequences();
 	
     //for(int k = 0; k < nbseq;k++)
-    for(int k = 2958; k < 2959;k++)
+    for(int k = 2500; k < 2959;k++)
     //2958:6525, 2959:5957
     {	
 		int globalmax_i = 0;
@@ -226,9 +199,9 @@ int main(int argc, char **argv) {
 		}
 		
 		int score = maximum;
-		cout << "Score : " << score << endl;
+		//cout << "Score : " << score << endl;
 		int sbit = (0.267*score	+ 3.34)/0.69314718056;
-		cout << "Score normalisé : " << sbit << endl;
+		//cout << "Score normalisé : " << sbit << endl;
 		
 		/*
 		if(score > score_min) //cas où on doit faire le traceback

@@ -1,5 +1,5 @@
-all : input.o matrice.o proteine.o header.o BDDSequences.o main0712.cpp
-	g++ -o out input.o matrice.o BDDSequences.o proteine.o header.o main0712.cpp 
+all : input.o matrice.o proteine.o header.o BDDSequences.o mainliste.cpp
+	g++ -o out input.o matrice.o BDDSequences.o proteine.o header.o mainliste.cpp 
 input.o: input.cpp
 	g++ -c input.cpp
 matrice.o: matrice.cpp
