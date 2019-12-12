@@ -13,17 +13,17 @@ BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 	psq.open(db_psqfile, ios::in | ios::binary);
 	psq.read(table, db_size);
 	psq.close();
-	cout << "Sequences added to memory" << endl;
+	//cout << "Sequences added to memory" << endl;
 	int i = 0;
-	cout << (int)table[i] << endl;
+	//cout << (int)table[i] << endl;
 	
 	for(int j = 0; j<4; j++){
 		i++;
-		cout << (int)table[i] << endl;
+		//cout << (int)table[i] << endl;
 		while((int)table[i])
 		{
 			
-		cout << (int)table[i] << " " ;
+		//cout << (int)table[i] << " " ;
 			i++;
 		}
 	}
