@@ -51,13 +51,41 @@ int main(int argc, char **argv) {
 	pin.readfile();
 	Header phr("newE.fasta.phr");
 	
-	map<char,int> conversion = BDDSequences::getConversionMap();
+	map<char,int> conversion;
+	conversion['-']=0;
+	conversion['A']=1;
+	conversion['B']=2;
+	conversion['C']=3;
+	conversion['D']=4;
+	conversion['E']=5;
+	conversion['F']=6;
+	conversion['G']=7;
+	conversion['H']=8;
+	conversion['I']=9;
+	conversion['J']=27;
+	conversion['K']=10;
+	conversion['L']=11;
+	conversion['M']=12;
+	conversion['N']=13;
+	conversion['O']=26;
+	conversion['P']=14;
+	conversion['Q']=15;
+	conversion['R']=16;
+	conversion['S']=17;
+	conversion['T']=18;
+	conversion['U']=24;
+	conversion['V']=19;
+	conversion['W']=20;
+	conversion['X']=21;
+	conversion['Y']=22;
+	conversion['Z']=23;
+	conversion['*']=25;
+	
 	
 	
 	Matrice matscore("BLOSUM62.txt");
 	int blosum[28][28];
 	memcpy(blosum,matscore.matrice,28*28*sizeof(int));
-	//int** blosum = matscore.matrice;
 	
 	
 	//Matrice matscore(argv...);
@@ -65,9 +93,8 @@ int main(int argc, char **argv) {
 	//blosum = [...................] Déclarer la matrice BLOSUM ici.
 	
 	vector<int> AAValue_vector;
-	//vector<int8_t> AAValue8; 
 	
-	//char* protFileName = argv[1];
+	char* protFileName = argv[1];
 	
 	ifstream protFile ("P00533.fasta");
 	
@@ -87,6 +114,7 @@ int main(int argc, char **argv) {
 			AAValue_vector.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
 		}
 	}
+	
 
 	//Proteine protref("Inconnu",AAValue);
 
@@ -97,11 +125,13 @@ int main(int argc, char **argv) {
 	
 	
 
-	int* AAValue = &AAValue_vector[0];
 	char* table;
-	//table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
+	table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
 	table = sequences.getTable();
 	int sizeref = AAValue_vector.size();
+	
+	int* AAValue = &AAValue_vector[0];
+
 	
 	int open_pen = 11;
 	int ext_pen = 1;
@@ -115,9 +145,13 @@ int main(int argc, char **argv) {
 	int sauve = 0;
 	
 	int nbseq = pin.getNbSequences();
+	int a;
+	int b;
 	
-    //for(int k = 0; k < nbseq;k++)
-    for(int k = 2500; k < 2959;k++)
+	vector<int> scoresvect;
+	
+    for(int k = 0; k < nbseq;k++)
+    //for(int k = 2958; k < 2959;k++)
     //2958:6525, 2959:5957
     {	
 		int globalmax_i = 0;
@@ -130,12 +164,17 @@ int main(int argc, char **argv) {
 		
 		int max_colonne[sizeref] = {0}; 
 		
+		//int **MEMO = new int*[offsetEnd-offsetBegin+1];
+		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
+			//MEMO[i] = new int[sizeref+1];
+		//}
+		
 		for(int i = 1; i < offsetEnd-offsetBegin; i++)
 		{
 			int max_ligne = 0;
-			for (int j = 1; j < sizeref+1; j++)
+			for (int j = 1; j < sizeref+1;j++)
 			{
-				int a;
+				
 					
 				if(T[j]-open_pen < max_colonne[j-1]-ext_pen)
 				{
@@ -150,7 +189,6 @@ int main(int argc, char **argv) {
 				
 				max_colonne[j-1] = max_colonne[j-1] - ext_pen;
 				
-				int b;
 				if(T[j-1]-open_pen < max_ligne-ext_pen)
 				{
 					b = max_ligne-ext_pen;
@@ -169,20 +207,24 @@ int main(int argc, char **argv) {
 				if(sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] < 0 && a < 0 && b < 0)
 				{
 					value = 0;
+					//MEMO[i][j] = 0;
 				}
 				
 				else if (a < sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] && b < sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]])
 				{
 					value = sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]];
+					//MEMO[i][j] = 1;
 				}
 				
 				else if (a < b)
 				{
 					value = b;
+					//MEMO[i][j] = 2;
 				}
 				else
 				{
 					value = a;
+					//MEMO[i][j] = 3;
 				}
 				sauve = T[j];
 				T[j] = value;
@@ -193,13 +235,12 @@ int main(int argc, char **argv) {
 					globalmax_i = i;
 					globalmax_j = j;
 				}
-				
-
 			}
 		}
 		
 		int score = maximum;
 		//cout << "Score : " << score << endl;
+		scoresvect.push_back(score);
 		int sbit = (0.267*score	+ 3.34)/0.69314718056;
 		//cout << "Score normalisé : " << sbit << endl;
 		
