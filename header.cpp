@@ -60,5 +60,27 @@ char* Header::getTitle(int offset) {
 }
 
 
+int* Header::getID(int offset) {
+	phr.seekg(offset);
+	uint8_t var;
+	while(phr.read( (char*)(&var), sizeof(var)))
+	{
+		if(var == 2) //2 aussi en hex
+		{
+				
+			phr.read( (char*)(&var), sizeof(var));
+			
+			ID = new int[var];                   //est-ce qu'on créé un tableau?
+			phr.read(ID, var);
+			return &ID;
+
+				
+			
+		}
+	}
+}
+
+
+
 
 
