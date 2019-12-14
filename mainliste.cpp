@@ -17,7 +17,16 @@
 using namespace std;
 
 
-
+int getMax(int* array , int size){
+	int index_of_max = 0;
+	for(int i=0; i<size; i++){
+		if(array[i]>index_of_max) {
+			index_of_max = i;
+		}
+	}
+	cout<< "Index of max : " << index_of_max  << endl;
+	return index_of_max;
+}
 
 int main(int argc, char **argv) {
 	/*if(argc != 3)
@@ -51,41 +60,12 @@ int main(int argc, char **argv) {
 	pin.readfile();
 	Header phr("newE.fasta.phr");
 	
-	map<char,int> conversion;
-	conversion['-']=0;
-	conversion['A']=1;
-	conversion['B']=2;
-	conversion['C']=3;
-	conversion['D']=4;
-	conversion['E']=5;
-	conversion['F']=6;
-	conversion['G']=7;
-	conversion['H']=8;
-	conversion['I']=9;
-	conversion['J']=27;
-	conversion['K']=10;
-	conversion['L']=11;
-	conversion['M']=12;
-	conversion['N']=13;
-	conversion['O']=26;
-	conversion['P']=14;
-	conversion['Q']=15;
-	conversion['R']=16;
-	conversion['S']=17;
-	conversion['T']=18;
-	conversion['U']=24;
-	conversion['V']=19;
-	conversion['W']=20;
-	conversion['X']=21;
-	conversion['Y']=22;
-	conversion['Z']=23;
-	conversion['*']=25;
-	
-	
+	map<char,int> conversion = BDDSequences::getConversionMap();
 	
 	Matrice matscore("BLOSUM62.txt");
-	int blosum[28][28];
-	memcpy(blosum,matscore.matrice,28*28*sizeof(int));
+	//int blosum[28][28];
+	int** blosum = matscore.getMatrice();
+	//memcpy(blosum,matscore.matrice,28*28*sizeof(int));
 	
 	
 	//Matrice matscore(argv...);
@@ -142,18 +122,20 @@ int main(int argc, char **argv) {
 	int size_vect = 0; //Nombre de proténies présentes dans le vecteur
 	
 	int count = 0;
-	int sauve = 0;
 	
 	int nbseq = pin.getNbSequences();
 	int a;
 	int b;
+	int score;
+	int* scoresvect = new int[nbseq];
 	
-	vector<int> scoresvect;
-	
-    for(int k = 0; k < nbseq;k++)
+    //for(int k = 0; k < nbseq;k++)
     //for(int k = 2958; k < 2959;k++)
+    for(int k = 5300; k < 5305;k++)
     //2958:6525, 2959:5957
     {	
+		
+		int sauve = 0;
 		int globalmax_i = 0;
 		int globalmax_j = 0;
 		int maximum = 0;
@@ -238,11 +220,12 @@ int main(int argc, char **argv) {
 			}
 		}
 		
-		int score = maximum;
-		//cout << "Score : " << score << endl;
-		scoresvect.push_back(score);
+		score = maximum;
+		scoresvect[k] = score;
+		cout << "Score : " << score << endl;
+		//scoresvect.push_back(score);
 		int sbit = (0.267*score	+ 3.34)/0.69314718056;
-		//cout << "Score normalisé : " << sbit << endl;
+		//cout << "Score normalisé " << k << ": " << sbit << endl;
 		
 		/*
 		if(score > score_min) //cas où on doit faire le traceback
@@ -323,6 +306,9 @@ int main(int argc, char **argv) {
 		//}
 		//delete [] MEMO;
 	}
+	//DEBUT DU TRACEBACK 
+	cout << "score : "<< scoresvect[getMax(scoresvect, nbseq)] << endl;
+	delete []scoresvect;
 	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
 }
 

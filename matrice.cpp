@@ -11,20 +11,19 @@ Matrice::Matrice(string file) {
 	create_matrice();
 }
 Matrice::~Matrice(){
-	/*
+	
 	for(int i = 0; i<28; i++){
 		free(matrice[i]);
 	}
 	free(matrice);
-	*/
 	
 }
 
 void Matrice::create_matrice() {
 	map<int, char> AA_order;
 	map<char, int> AA_conversion = BDDSequences::getConversionMap();
-	//matrice = (int**)malloc(28*sizeof(int*));
-	//for(int l = 0; l<28; l++) matrice[l]=(int*)malloc(28*sizeof(int));
+	matrice = (int**)malloc(28*sizeof(int*));
+	for(int l = 0; l<28; l++) matrice[l]=(int*)malloc(28*sizeof(int));
 	const string entiers = "-0123456789";
 	int res;
 	
@@ -85,9 +84,9 @@ void Matrice::create_matrice() {
 
 }
 
-/*
-int* Matrice::getMatrice() {
+
+int** Matrice::getMatrice() {
 	return matrice;
 }
-*/
+
 

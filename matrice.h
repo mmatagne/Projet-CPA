@@ -11,10 +11,10 @@ class Matrice {
 	void create_matrice();
 	
 	public:
-	//int** matrice;
-	int matrice[28][28];
+	int** matrice;
+	//int matrice[28][28];
 	Matrice(string file);
 	~Matrice();
-	//int* getMatrice();
+	int** getMatrice();
 };
 
