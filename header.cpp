@@ -69,23 +69,17 @@ int Header::getID(int offset) {
 		{
 				
 			phr.read( (char*)(&var), sizeof(var));
-			//int ID; 
-             		unsigned long ID;
+            unsigned long ID;
 			uint8_t x;
 			ID = 0;
 			for (int j = 0; j < var; j++){ 
 				phr.read((char*)&x, 1);
-				ID = ID << 8 | x;
+				ID = ID << 8 | (unsigned long)x;
 			}
-
-			phr.read((char*) (&ID), var*sizeof(int));
-			cout<< ID << endl;
 			return ID;
-
-				
-			
 		}
 	}
+	return 0;
 }
 
 
