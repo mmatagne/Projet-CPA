@@ -42,7 +42,7 @@ char* Header::getTitle(int offset) {
 						title = new char[title_length+1];
 						title[title_length] = '\0';
 						phr.read(title, title_length*sizeof(char));
-						cout << title_length << " : " << title << endl;
+						//cout << title_length << " : " << title << endl;
 						return title;
 					}
 					else // 1st bit is a 0 : var = title_length
@@ -50,7 +50,7 @@ char* Header::getTitle(int offset) {
 						title = new char[var+1];
 						title[var] = '\0';
 						phr.read(title, var*sizeof(char));
-						cout<< title << endl;
+						//cout<< title << endl;
 						return title;
 					}
 				}
@@ -60,7 +60,7 @@ char* Header::getTitle(int offset) {
 }
 
 
-int* Header::getID(int offset) {
+int Header::getID(int offset) {
 	phr.seekg(offset);
 	uint8_t var;
 	while(phr.read( (char*)(&var), sizeof(var)))
@@ -69,11 +69,10 @@ int* Header::getID(int offset) {
 		{
 				
 			phr.read( (char*)(&var), sizeof(var));
-			
-			ID = new int[var];               
-			phr.read(ID, var);
+			int ID;              
+			phr.read((char*) (&ID), var*sizeof(int));
 			cout<< ID << endl;
-			return &ID;
+			return ID;
 
 				
 			

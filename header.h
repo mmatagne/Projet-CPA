@@ -16,6 +16,6 @@ class Header
 	Header(string phrfile);
 	~Header();
 	char* getTitle(int offset);
-	int* getID(int offset);
+	int getID(int offset);
 
 };
