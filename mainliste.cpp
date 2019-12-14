@@ -64,18 +64,14 @@ int main(int argc, char **argv) {
 	map<char,int> conversion = BDDSequences::getConversionMap();
 	
 	Matrice matscore("BLOSUM62.txt");
-	//int blosum[28][28];
+	
 	int** blosum = matscore.getMatrice();
+	//int blosum[28][28];
 	//memcpy(blosum,matscore.matrice,28*28*sizeof(int));
-	
-	
-	//Matrice matscore(argv...);
-	//blosum = matscore.getMatrice();
-	//blosum = [...................] Déclarer la matrice BLOSUM ici.
 	
 	vector<int> AAValue_vector;
 	
-	char* protFileName = argv[1];
+	//char* protFileName = argv[1];
 	
 	ifstream protFile ("P00533.fasta");
 	
@@ -95,10 +91,6 @@ int main(int argc, char **argv) {
 			AAValue_vector.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
 		}
 	}
-	
-
-	//Proteine protref("Inconnu",AAValue);
-
 	
 	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
 	//BDDSequences sequences(b, sizedb);
@@ -123,15 +115,13 @@ int main(int argc, char **argv) {
 	int score;
 	int* scoresvect = new int[nbseq];
 	
-    //for(int k = 0; k < nbseq;k++)
-    for(int k = 2500; k < 3000;k++)
+    for(int k = 0; k < nbseq;k++)
+    //for(int k = 2500; k < 3000;k++)
     //for(int k = 5300; k < 5305;k++)
     //2958:6525, 2959:5957
     {	
 		
 		int sauve = 0;
-		int globalmax_i = 0;
-		int globalmax_j = 0;
 		int maximum = 0;
 		int offsetEnd = __bswap_32(pin.getSequenceOffsetTable()[k+1]);
 		int offsetBegin = __bswap_32(pin.getSequenceOffsetTable()[k]);
@@ -139,11 +129,6 @@ int main(int argc, char **argv) {
 		int T[sizeref+1] = {};
 		
 		int max_colonne[sizeref] = {0}; 
-		
-		//int **MEMO = new int*[offsetEnd-offsetBegin+1];
-		//for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
-			//MEMO[i] = new int[sizeref+1];
-		//}
 		
 		for(int i = 1; i < offsetEnd-offsetBegin; i++)
 		{
@@ -183,24 +168,20 @@ int main(int argc, char **argv) {
 				if(sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] < 0 && a < 0 && b < 0)
 				{
 					value = 0;
-					//MEMO[i][j] = 0;
 				}
 				
 				else if (a < sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] && b < sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]])
 				{
 					value = sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]];
-					//MEMO[i][j] = 1;
 				}
 				
 				else if (a < b)
 				{
 					value = b;
-					//MEMO[i][j] = 2;
 				}
 				else
 				{
 					value = a;
-					//MEMO[i][j] = 3;
 				}
 				sauve = T[j];
 				T[j] = value;
@@ -208,97 +189,16 @@ int main(int argc, char **argv) {
 				if(maximum < value)
 				{
 					maximum = value;
-					globalmax_i = i;
-					globalmax_j = j;
 				}
 			}
 		}
 		
 		score = maximum;
 		scoresvect[k] = score;
-		if (score>66) cout << "Score : " << k << " "<< score << endl;
-		//scoresvect.push_back(score);
-		int sbit = (0.267*score	+ 3.34)/0.69314718056;
+		if (score>2500) cout << "Score : " << k << " "<< score << endl;
+		//int sbit = (0.267*score	+ 3.34)/0.69314718056;
 		//cout << "Score normalisé " << k << ": " << sbit << endl;
 		
-		/*
-		if(score > score_min) //cas où on doit faire le traceback
-		{
-			count++;
-			//cout << score_min << endl;
-			//cout << count << endl;
-			int i = globalmax_i;
-			int j = globalmax_j;
-			forward_list<int> listeInconnue;
-			forward_list<int> listeDb;
-			listeInconnue.push_front(AAValue[j]);
-			listeDb.push_front(table[offsetBegin+i]);
-			
-			while(MEMO[i][j] != 0)
-			{
-				//cout << i << endl;
-				//cout << j << endl;
-				//cout << MEMO[i][j] << endl;
-				if(MEMO[i][j] == 3)
-				{
-					listeInconnue.push_front(AAValue[j-1]);
-					listeDb.push_front(table[offsetBegin+i-1]);
-					i = i - 1;
-					j = j - 1;
-				}
-				if(MEMO[i][j] == 2)
-				{
-					listeInconnue.push_front(0);
-					listeDb.push_front(table[offsetBegin+i-1]);
-					i = i - 1;
-				}
-				if(MEMO[i][j] == 1)
-				{
-					listeInconnue.push_front(AAValue[j-1]);
-					listeDb.push_front(0);
-					j = j - 1;
-				}
-			}
-
-			Proteine* prot = new Proteine(k,score,listeInconnue,listeDb);
-			if (size_vect < 10)
-			{
-				protVect.push_back(prot);
-				size_vect++;
-			}
-			else if (size_vect == 10)
-			{
-				int newmin = protVect[0]->getScore();
-				int todelete = 0;
-				for(int i = 0; i < 10; i++)
-				{
-					if(protVect[i]->getScore() < newmin)
-					{
-						newmin = protVect[i]->getScore();
-						todelete = i;
-					}
-				}
-				protVect.erase(protVect.begin() + todelete);
-				protVect.push_back(prot);
-				int min = 1000000;
-				for(int i = 0; i < 10; i++)
-				{
-					if(protVect[i]->getScore() < min)
-					{
-						min = protVect[i]->getScore();
-					}
-				}
-				score_min = min;
-			}
-		}*/
-		/*for(int i = 0; i < offsetEnd-offsetBegin; ++i) {
-			delete [] M[i];
-		}
-		delete [] M;*/
-		//for(int i = 0; i < offsetEnd-offsetBegin; ++i) {
-			//delete [] MEMO[i];
-		//}
-		//delete [] MEMO;
 	}
 	
 	//DEBUT DU TRACEBACK 
@@ -431,13 +331,16 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		Proteine prot(k,maximum,listeInconnue,listeDb);
+		for(int i = 0; i < offsetEnd-offsetBegin; ++i) {
+			delete [] MEMO[i];
+		}
+		delete [] MEMO;
+		protVect[iota] = new Proteine(k,maximum,listeInconnue,listeDb);
 		cout<<"Proteine "<< k << " de score " << maximum << " créée" <<endl;
-		protVect[iota] = &prot;
 		
 	}
 	//int max_index = getMax(scoresvect, nbseq);
-	cout << "score : "<< (*protVect[0]).getNb() << endl;
+	cout << "score : "<< protVect[0]->getNb() << endl;
 	delete []scoresvect;
 	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
 }
