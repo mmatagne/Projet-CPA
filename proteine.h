@@ -10,11 +10,12 @@ class Proteine
 {
 	private:
 	int protNb;
+	int score;
 	forward_list<int> listeInconnue;
 	forward_list<int> listeDb;
 	
 	public:
-	Proteine(int new_protNb, forward_list<int> new_listeInconnue, forward_list<int> new_listeDb);
+	Proteine(int new_score, int new_protNb, forward_list<int> new_listeInconnue, forward_list<int> new_listeDb);
 	~Proteine();
 	int getNb() const;
 	void printResult();

@@ -70,7 +70,11 @@ void Matrice::create_matrice() {
 		
 		for(int i = 0; i<k;i++){
 			for(int j = 0; j<k; j++){
-				cout<<matrice[i][j]<<" ";
+				string espace = "";
+				if(matrice[i][j]>=0) espace+=" ";
+				if(matrice[i][j]-10 <= 0) espace+=" ";
+				cout<<espace<<matrice[i][j];
+				
 			}
 			cout<<endl;
 
