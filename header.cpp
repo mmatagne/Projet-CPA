@@ -70,8 +70,9 @@ int* Header::getID(int offset) {
 				
 			phr.read( (char*)(&var), sizeof(var));
 			
-			ID = new int[var];                   //est-ce qu'on créé un tableau?
+			ID = new int[var];               
 			phr.read(ID, var);
+			cout<< ID << endl;
 			return &ID;
 
 				
@@ -79,6 +80,8 @@ int* Header::getID(int offset) {
 		}
 	}
 }
+
+
 
 
 
