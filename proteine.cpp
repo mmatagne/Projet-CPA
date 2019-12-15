@@ -52,15 +52,45 @@ int Proteine::getNb() const{
 	return protNb;
 }
 
+int Proteine::getScore() const{
+	return (0.267*score	+ 3.34)/0.69314718056;
+}
+
+int Proteine::getRawScore() const{
+	return score;
+}
+
 void Proteine::printResult() {
-	for(int&a : listeInconnue)
+	auto it = listeInconnue.begin();
+	auto it2 = listeDb.begin();
+	int j = 0;
+	
+	while(it != listeInconnue.end())
 	{
-		cout << conversion[a];
-	}
-	cout << endl;
-	for(int&b : listeDb)
-	{
-		cout << conversion[b];
+		cout << "Query: ";
+		for(int i = 0; i<60; ++i)
+		{
+			cout << conversion[*it];
+			it++;
+			if(it == listeInconnue.end())
+			{
+				break;
+			}
+		}
+		cout << endl;
+		cout << endl;
+		cout << "Sbjct: ";
+		for(int i = 0; i<60; ++i)
+		{
+			cout << conversion[*it2];
+			it2++;
+			if(it2 == listeInconnue.end())
+			{
+				break;
+			}
+		}
+		cout << endl;
+		cout << endl;
 	}
 }
 

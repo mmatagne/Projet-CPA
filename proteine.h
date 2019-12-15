@@ -21,6 +21,8 @@ class Proteine
 	Proteine(int new_score, int new_protNb, forward_list<int> new_listeInconnue, forward_list<int> new_listeDb);
 	~Proteine();
 	int getNb() const;
+	int getScore() const;
+	int getRawScore() const;
 	void printResult();
 };
 

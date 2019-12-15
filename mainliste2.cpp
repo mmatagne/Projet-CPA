@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <iomanip>
 #include <string.h>
 #include <vector>
 #include <map>
@@ -195,7 +196,7 @@ int main(int argc, char **argv) {
 		
 		score = maximum;
 		scoresvect[k] = score;
-		if (score>2500) cout << "Score : " << k << " "<< score << endl;
+		//if (score>2500) cout << "Score : " << k << " "<< score << endl;
 		//int sbit = (0.267*score	+ 3.34)/0.69314718056;
 		//cout << "Score normalisé " << k << ": " << sbit << endl;
 		
@@ -206,7 +207,6 @@ int main(int argc, char **argv) {
 	//création vecteur de Prot
 	Proteine* protVect[10];
 	int k = 0;
-	cout<<"Debut traceback"<<endl;
 	for(int iota=0;iota<10;iota++){
 		k = getMax(scoresvect, nbseq);
 		scoresvect[k]=-1;
@@ -226,6 +226,16 @@ int main(int argc, char **argv) {
 		int **MEMO = new int*[offsetEnd-offsetBegin+1];
 		for(int i = 0; i < offsetEnd-offsetBegin+1; ++i) {
 			MEMO[i] = new int[sizeref+1];
+		}
+		
+		for(int i = 0; i < offsetEnd-offsetBegin+1; ++i)
+		{
+			MEMO[i][0] = 0;
+		}
+		
+		for(int j = 0; j < sizeref+1; ++j)
+		{
+			MEMO[0][j] = 0;
 		}
 		
 		for(int i = 1; i < offsetEnd-offsetBegin; i++)
@@ -295,6 +305,7 @@ int main(int argc, char **argv) {
 					globalmax_j = j;
 				}
 			}
+			//cout << maximum << endl;
 		}
 		
 		//DEBUT DU TRACEBACK DANS LA MATRICE MEMO	
@@ -304,26 +315,27 @@ int main(int argc, char **argv) {
 		forward_list<int> listeDb;
 		//listeInconnue.push_front(AAValue[j-1]);
 		//listeDb.push_front(table[offsetBegin+i]);
-		
+		//cout << i << endl;
+		//cout << j << endl;
 		while(MEMO[i][j] != 0)
 		{
 			//cout << i << endl;
 			//cout << j << endl;
 			//cout << MEMO[i][j] << endl;
-			if(MEMO[i][j] == 3)
+			if(MEMO[i][j] == 1)
 			{
 				listeInconnue.push_front(AAValue[j-1]);
-				listeDb.push_front(table[offsetBegin+i-2]);
+				listeDb.push_front(table[offsetBegin+i-1]);
 				i -= 1;
 				j -= 1;
 			}
-			if(MEMO[i][j] == 2)
+			if(MEMO[i][j] == 3)
 			{
 				listeInconnue.push_front(0);
-				listeDb.push_front(table[offsetBegin+i-2]);
+				listeDb.push_front(table[offsetBegin+i-1]);
 				i -= 1;
 			}
-			if(MEMO[i][j] == 1)
+			if(MEMO[i][j] == 2)
 			{
 				listeInconnue.push_front(AAValue[j-1]);
 				listeDb.push_front(0);
@@ -336,14 +348,54 @@ int main(int argc, char **argv) {
 		}
 		delete [] MEMO;
 		protVect[iota] = new Proteine(k,maximum,listeInconnue,listeDb);
-		cout<<"Proteine "<< k << " de score " << maximum << " créée" <<endl;	
+		//cout<<"Proteine "<< k << " de score " << maximum << " créée" <<endl;	
 	}
 	//int max_index = getMax(scoresvect, nbseq);
-	cout << "score : "<< protVect[0]->getNb() << endl;
-	protVect[0]->printResult();
+	//cout << "score : "<< protVect[0]->getNb() << endl;
+	//protVect[0]->printResult();
 	
 	delete []scoresvect;
 	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
+	
+	
+	
+	cout << "Database title : " << pin.getTitle() << endl;
+	cout << "Database time : " << pin.getTime() << endl;
+	cout << "Database size : " << pin.getNbRes() << " residues in " << pin.getNbSequences() << " sequences" << endl;
+	cout << "Longest db seq : " << pin.getMaxSequence() << endl;
+	//cout << "Query file name : " << argv[1] << endl;
+	cout << "Query length : " << sizeref << " residues" << endl;
+	//cout << "Query description : " << nomInconnue << " residues" << endl;
+	//cout << "Score matrix : " << scoreMatrix << endl;
+	cout << "Gap penalty : " << open_pen << "+" << ext_pen << "k" << endl;
+	cout << "Alignements shown : " << "10" << endl;
+	cout << "Symbol type : " << "Amino acid" << endl;
+	cout << endl;
+	cout << endl;
+	
+	
+	cout << "Sequences producing significant alignements:" << endl;
+	cout << endl;
+	
+	for(int i = 0; i < 10; i++)
+	{
+		cout << left << setw(140) << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[protVect[i]->getNb()])) << fixed << protVect[i]->getScore() << endl;
+	}
+	
+	cout << endl;
+	cout << endl;
+	for(int i = 0; i < 10; i++)
+	{
+		cout << "<" << "gnl|BL_ORD_ID|" << phr.getID(__bswap_32(pin.getHeaderOffsetTable()[protVect[i]->getNb()])) << " " << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[protVect[i]->getNb()])) << endl;
+		cout << "Length = " << __bswap_32(pin.getSequenceOffsetTable()[protVect[i]->getNb()+1]) - __bswap_32(pin.getSequenceOffsetTable()[protVect[i]->getNb()]) << endl;
+		cout << "Score = " << protVect[i]->getScore() << " bits (" << protVect[i]->getRawScore() << ")" << endl;
+		cout << endl;
+		protVect[i]->printResult();
+		cout << endl;
+		cout << endl;
+
+	}
+
 }
 
 

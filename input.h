@@ -28,4 +28,8 @@ class Input
 	int* getHeaderOffsetTable();
 	int* getSequenceOffsetTable();
 	int getNbSequences();
+	int getNbRes();
+	int getMaxSequence();
+	char* getTitle();
+	char* getTime();
 };

@@ -49,3 +49,18 @@ int Input::getNbSequences() {
 	return nbSequences;
 }
 
+int Input::getNbRes() {
+	return residueCount;
+}
+
+int Input::getMaxSequence() {
+	return maxSequence;
+}
+
+char* Input::getTitle() {
+	return title;
+}
+
+char* Input::getTime() {
+	return timestamp;
+}
