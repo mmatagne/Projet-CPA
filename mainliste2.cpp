@@ -4,6 +4,7 @@
 #include <string>
 #include <iomanip>
 #include <string.h>
+#include <time.h>
 #include <vector>
 #include <map>
 #include <forward_list>
@@ -31,40 +32,57 @@ int getMax(int* array , int array_size){
 }
 
 int main(int argc, char **argv) {
-	/*if(argc != 3)
+	
+	clock_t t;
+	char matrix_name[] = "BLOSUM62.txt";
+	int open_pen = 11;
+	int ext_pen = 1;
+	
+	char* prot_name = argv[1];
+	char* db_raw = argv[2];
+	
+	char namepin[strlen(db_raw)]; 
+	char namepsq[strlen(db_raw)]; 
+	char namephr[strlen(db_raw)]; 
+	
+	strcpy(namepin,db_raw);
+	strcpy(namepsq,db_raw);
+	strcpy(namephr,db_raw);
+	
+	strcat(namepin,".pin");
+	strcat(namepsq,".psq");
+	strcat(namephr,".phr");
+	
+	cout << namepin << endl;
+	cout << namepsq << endl;
+	cout << namephr << endl;
+	
+	cout << argc << endl;
+	
+	for(int i = 3; i < argc; i++)
 	{
-		cout << "Seuls 2 arguments sont attendus.\n" << endl;
-		return EXIT_FAILURE;
+		if(!strcmp(argv[i],"-m"))
+		{
+			strcpy(matrix_name,argv[i+1]);
+		}
+		if(!strcmp(argv[i],"-gop"))
+		{
+			open_pen = atoi(argv[i+1]);
+		}
+		if(!strcmp(argv[i],"-gep"))
+		{
+			ext_pen = atoi(argv[i+1]);
+		}
 	}
+
 	
-	char* a;
-	char* b;
-	char* c;
-	
-	a = argv[2];
-	b = argv[2];
-	c = argv[2];
-	
-	strcat(a,".pin");
-	strcat(b,".psq");
-	strcat(c,".phr");
-	
-	Header phr(c);
-	
-	
-	Input pin(a); 
+	Input pin(namepin); 
 	pin.readfile();
-	cout << pin.getNbSequences() << endl;
-	cout << c << endl;
-	*/
-	
-	Input pin("newE.fasta.pin"); 
-	pin.readfile();
-	Header phr("newE.fasta.phr");
+	Header phr(namephr);
 	
 	map<char,int> conversion = BDDSequences::getConversionMap();
 	
-	Matrice matscore("BLOSUM62.txt");
+	Matrice matscore(matrix_name);
 	
 	int** blosum = matscore.getMatrice();
 	//int blosum[28][28];
@@ -74,7 +92,7 @@ int main(int argc, char **argv) {
 	
 	//char* protFileName = argv[1];
 	
-	ifstream protFile ("P00533.fasta");
+	ifstream protFile (prot_name);
 	
 	if (!protFile) 
 	{
@@ -95,7 +113,7 @@ int main(int argc, char **argv) {
 	
 	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
 	//BDDSequences sequences(b, sizedb);
-	BDDSequences sequences("newE.fasta.psq", sizedb);
+	BDDSequences sequences(namepsq, sizedb);
 	
 	
 
@@ -107,8 +125,8 @@ int main(int argc, char **argv) {
 	int* AAValue = &AAValue_vector[0];
 
 	
-	int open_pen = 11;
-	int ext_pen = 1;
+	//int open_pen = 11;
+	//int ext_pen = 1;
 	
 	int nbseq = pin.getNbSequences();
 	int a;
@@ -356,20 +374,25 @@ int main(int argc, char **argv) {
 	
 	delete []scoresvect;
 	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
-	
+	t = clock() - t;
 	
 	
 	cout << "Database title : " << pin.getTitle() << endl;
 	cout << "Database time : " << pin.getTime() << endl;
 	cout << "Database size : " << pin.getNbRes() << " residues in " << pin.getNbSequences() << " sequences" << endl;
 	cout << "Longest db seq : " << pin.getMaxSequence() << endl;
-	//cout << "Query file name : " << argv[1] << endl;
+	cout << "Query file name : " << prot_name << endl;
 	cout << "Query length : " << sizeref << " residues" << endl;
 	cout << "Query description : " << firstLine << endl;
-	//cout << "Score matrix : " << scoreMatrix << endl;
+	cout << "Score matrix : " << matrix_name << endl;
 	cout << "Gap penalty : " << open_pen << "+" << ext_pen << "k" << endl;
 	cout << "Alignements shown : " << "10" << endl;
 	cout << "Symbol type : " << "Amino acid" << endl;
+	cout << endl;
+	cout << endl;
+	
+	cout << "Elapsed : " << ((float)t)/CLOCKS_PER_SEC << "s" << endl;
+	
 	cout << endl;
 	cout << endl;
 	
