@@ -7,7 +7,6 @@ using namespace std;
 BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 	table = new char[db_size];
 	
-	cout << "Memory allocated : " << db_size << "bytes"<< endl;
 	ifstream psq;
 	
 	psq.open(db_psqfile, ios::in | ios::binary);

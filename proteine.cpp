@@ -78,7 +78,6 @@ void Proteine::printResult() {
 			}
 		}
 		cout << endl;
-		cout << endl;
 		cout << "Sbjct: ";
 		for(int i = 0; i<60; ++i)
 		{

@@ -73,10 +73,10 @@ void Matrice::create_matrice() {
 				string espace = "";
 				if(matrice[i][j]>=0) espace+=" ";
 				if(matrice[i][j]-10 <= 0) espace+=" ";
-				cout<<espace<<matrice[i][j];
+				//cout<<espace<<matrice[i][j];
 				
 			}
-			cout<<endl;
+			//cout<<endl;
 
 		}
 		
