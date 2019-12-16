@@ -365,7 +365,7 @@ int main(int argc, char **argv) {
 	cout << "Longest db seq : " << pin.getMaxSequence() << endl;
 	//cout << "Query file name : " << argv[1] << endl;
 	cout << "Query length : " << sizeref << " residues" << endl;
-	//cout << "Query description : " << nomInconnue << " residues" << endl;
+	cout << "Query description : " << firstLine << endl;
 	//cout << "Score matrix : " << scoreMatrix << endl;
 	cout << "Gap penalty : " << open_pen << "+" << ext_pen << "k" << endl;
 	cout << "Alignements shown : " << "10" << endl;
