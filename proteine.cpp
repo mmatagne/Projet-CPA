@@ -43,6 +43,8 @@ Proteine::Proteine(int new_protNb, int  new_score, forward_list<int> new_listeIn
 	listeInconnue = new_listeInconnue;
 	listeDb = new_listeDb;
 }
+//Proteine::Proteine(){}
+
 Proteine::~Proteine(){
 	
 }

@@ -23,6 +23,7 @@ BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 	}
 	
 }
+BDDSequences::BDDSequences(){}
 BDDSequences::~BDDSequences(){
 	delete table;
 }

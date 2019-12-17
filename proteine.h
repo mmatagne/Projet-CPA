@@ -19,6 +19,7 @@ class Proteine
 	
 	public:
 	Proteine(int new_score, int new_protNb, forward_list<int> new_listeInconnue, forward_list<int> new_listeDb);
+	//Proteine();
 	~Proteine();
 	int getNb() const;
 	int getScore() const;

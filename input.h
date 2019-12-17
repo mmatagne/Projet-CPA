@@ -23,6 +23,7 @@ class Input
 	
 	public:
 	Input(string pinfile);
+	Input();
 	~Input();
 	void readfile();
 	int* getHeaderOffsetTable();

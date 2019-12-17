@@ -6,6 +6,7 @@ using namespace std;
 Input::Input(string pinfile) {
 	filename = pinfile;
 }
+Input::Input(){}
 
 Input::~Input(){
 	
