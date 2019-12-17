@@ -2,22 +2,27 @@
 #include "algorithme.h"
 using namespace std;
 
-Algorithme::Algorithme(const Input& input, const BDDSequences& bddsequences, vector<int>& query_prot, Matrice& mat, int o_p, int ext_p)
+Algorithme::Algorithme(Input* input, BDDSequences* bddsequences, vector<int>* query_prot, int** mat, int o_p, int ext_p)
 {
-	cout<< "pret à lancer algo" << endl;
+	//cout<< "pret à lancer algo" << endl;
 	pin = input;
 	sequences = bddsequences;
 	open_pen = o_p;
 	ext_pen = ext_p;
-	sizeref = query_prot.size();
-	AAValue = &query_prot[0];
-	blosum = mat.getMatrice();
-	scoresvect = new int[pin.getNbSequences()];
-	cout << "Algorithme initialise "<< AAValue[0] << endl;
+	sizeref = (*query_prot).size();
+	blosum = mat;
+	AAValue = query_prot->data();
+	
+	scoresvect = new int[pin->getNbSequences()];
+	//cout << "Algorithme initialise "<< AAValue[0] << endl;
 	
 }
+
 Algorithme::~Algorithme(){
-	delete[] scoresvect;
+	
+	//delete [] scoresvect;
+	
+	cout << "No probleme algo"<< endl;
 }
 
 int Algorithme::getMax(int* array , int array_size){
@@ -38,23 +43,22 @@ int* Algorithme::getScoresTable(){
 	
 void Algorithme::run(){
 	
-	char* table = sequences.getTable();
+	char* table = sequences->getTable();
 	
-	int nbseq = pin.getNbSequences();
+	int nbseq = pin->getNbSequences();
 	int a;
 	int b;
-	int score;
 	
     for(int k = 0; k < nbseq;k++)
-    //for(int k = 2500; k < 3000;k++)
+    //for(int k = 2950; k < 3000;k++)
     //for(int k = 5300; k < 5305;k++)
     //2958:6525, 2959:5957
     {	
 		
 		int sauve = 0;
 		int maximum = 0;
-		int offsetEnd = __bswap_32(pin.getSequenceOffsetTable()[k+1]);
-		int offsetBegin = __bswap_32(pin.getSequenceOffsetTable()[k]);
+		int offsetEnd = __bswap_32(pin->getSequenceOffsetTable()[k+1]);
+		int offsetBegin = __bswap_32(pin->getSequenceOffsetTable()[k]);
 		
 		int T[sizeref+1] = {};
 		
@@ -131,8 +135,7 @@ void Algorithme::run(){
 			}
 		}
 		
-		score = maximum;
-		scoresvect[k] = score;
+		scoresvect[k] = maximum;
 		
 		//if (score>2500) cout << "Score : " << k << " "<< score << endl;
 		//int sbit = (0.267*score	+ 3.34)/0.69314718056;
@@ -146,12 +149,12 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 	//DEBUT DU TRACEBACK 
 	
 	//création vecteur de Prot
-	Proteine** protVect = new Proteine*[nb_prot];
+	protVect = new Proteine*[nb_prot];
 	int k = 0;
 	int a;
 	int b;
-	char* table = sequences.getTable();
-	int nbseq = pin.getNbSequences();
+	char* table = sequences->getTable();
+	int nbseq = pin->getNbSequences();
 	
 	for(int iota=0;iota<nb_prot;iota++){
 		k = getMax(scoresvect, nbseq);
@@ -162,8 +165,8 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 		int globalmax_i = 0;
 		int globalmax_j = 0;
 		int maximum = 0;
-		int offsetEnd = __bswap_32(pin.getSequenceOffsetTable()[k+1]);
-		int offsetBegin = __bswap_32(pin.getSequenceOffsetTable()[k]);
+		int offsetEnd = __bswap_32(pin->getSequenceOffsetTable()[k+1]);
+		int offsetBegin = __bswap_32(pin->getSequenceOffsetTable()[k]);
 		
 		int T[sizeref+1] = {};
 		

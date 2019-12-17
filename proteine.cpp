@@ -43,10 +43,11 @@ Proteine::Proteine(int new_protNb, int  new_score, forward_list<int> new_listeIn
 	listeInconnue = new_listeInconnue;
 	listeDb = new_listeDb;
 }
-//Proteine::Proteine(){}
+Proteine::Proteine(){}
 
 Proteine::~Proteine(){
 	
+	cout << "No probleme prot"<< endl;
 }
 
 
@@ -66,6 +67,7 @@ void Proteine::printResult() {
 	auto it = listeInconnue.begin();
 	auto it2 = listeDb.begin();
 	int j = 0;
+	
 	
 	while(it != listeInconnue.end())
 	{
@@ -94,5 +96,5 @@ void Proteine::printResult() {
 		cout << endl;
 	}
 }
-
+//
 

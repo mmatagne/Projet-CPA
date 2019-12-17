@@ -10,6 +10,7 @@ Input::Input(){}
 
 Input::~Input(){
 	
+	cout << "No probleme input"<< endl;
 }
 
 void Input::readfile() {
@@ -35,6 +36,7 @@ void Input::readfile() {
 	sequenceOffsetTable = new int[nbSequences+1];
 	file.read( (char*)(headerOffsetTable), sizeof(int)*(nbSequences+1) );
 	file.read( (char*)(sequenceOffsetTable), sizeof(int)*(nbSequences+1) );
+	file.close();
 }
 
 

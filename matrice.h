@@ -15,6 +15,6 @@ class Matrice {
 	//int matrice[28][28];
 	Matrice(string file);
 	~Matrice();
-	int** getMatrice();
+	int** getMatrice() const;
 };
 

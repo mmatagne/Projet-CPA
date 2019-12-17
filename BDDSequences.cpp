@@ -26,6 +26,7 @@ BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 BDDSequences::BDDSequences(){}
 BDDSequences::~BDDSequences(){
 	delete table;
+	cout << "No probleme bdd"<< endl;
 }
 const map<char, int> BDDSequences::conversion = {
 	{'-', 0 },

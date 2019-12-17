@@ -18,7 +18,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
 	
-	clock_t t;
+	clock_t t, t1;
 	char matrix_name[] = "BLOSUM62.txt";
 	int open_pen = 11;
 	int ext_pen = 1;
@@ -63,16 +63,15 @@ int main(int argc, char **argv) {
 	
 	Input pin(namepin); 
 	pin.readfile();
-	Header phr(namephr);
+	
+	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
+	BDDSequences sequences(namepsq, sizedb);
 	
 	map<char,int> conversion = BDDSequences::getConversionMap();
 	
 	Matrice matscore(matrix_name);
-	
-	
-	
-	//char* protFileName = argv[1];
-	
+	// Lecture de la proteine query
+	vector<int> AAValue_vector;
 	ifstream protFile (prot_name);
 	
 	if (!protFile) 
@@ -84,7 +83,7 @@ int main(int argc, char **argv) {
 	getline(protFile,firstLine);
 	
 	
-	vector<int> AAValue_vector;
+	
 	char ch;
 	while(protFile >> noskipws >> ch) 
 	{
@@ -93,23 +92,21 @@ int main(int argc, char **argv) {
 			AAValue_vector.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
 		}
 	}
+	protFile.close(); // Fin de la lecture de la proteine query
 	
-	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
-	//BDDSequences sequences(b, sizedb);
-	BDDSequences sequences(namepsq, sizedb);
+	
+	
 	//ALGORITHME 
 	cout<< "pret à lancer algo" << endl;
-	Algorithme algorithme(pin, sequences, AAValue_vector, matscore, open_pen, ext_pen);
+	Algorithme algorithme(&pin, &sequences, &AAValue_vector, matscore.getMatrice(), open_pen, ext_pen);
 	algorithme.run();
+	t1 = clock() - t;
+	cout << "Time for first run of algorithm : " << ((float)t1)/CLOCKS_PER_SEC << "s" << endl;
 	Proteine** protVect = algorithme.getAlignment(10);
 	
-	
-	
-	
-	
-	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
 	t = clock() - t;
 	
+	Header phr(namephr);
 	
 	cout << "Database title : " << pin.getTitle() << endl;
 	cout << "Database time : " << pin.getTime() << endl;
@@ -148,11 +145,14 @@ int main(int argc, char **argv) {
 		cout << "Score = " << protVect[i]->getScore() << " bits (" << protVect[i]->getRawScore() << ")" << endl;
 		cout << endl;
 		protVect[i]->printResult();
+		
 		cout << endl;
 		cout << endl;
 
 	}
-
+	
+	
+	return 0;
 }
 
 

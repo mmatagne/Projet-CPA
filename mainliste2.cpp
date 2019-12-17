@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
 	
 
 	char* table;
-	table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
+	//table = new char[__bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()])];
 	table = sequences.getTable();
 	int sizeref = AAValue_vector.size();
 	
@@ -134,8 +134,8 @@ int main(int argc, char **argv) {
 	int score;
 	int* scoresvect = new int[nbseq];
 	
-    for(int k = 0; k < nbseq;k++)
-    //for(int k = 2500; k < 3000;k++)
+    //for(int k = 0; k < nbseq;k++)
+    for(int k = 2950; k < 3000;k++)
     //for(int k = 5300; k < 5305;k++)
     //2958:6525, 2959:5957
     {	
