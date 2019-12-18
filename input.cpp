@@ -1,3 +1,6 @@
+/* La classe Input possède les informations relatives au fichier .pin de la database. */
+
+
 #include "input.h"
 
 

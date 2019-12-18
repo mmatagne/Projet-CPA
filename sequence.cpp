@@ -1,8 +1,4 @@
-/*
-
-La classe sequence permet de récupérer la séquence d'acides aminés depuis le fichier blast .psq
-
-*/
+/* La classe sequence permet de récupérer la séquence d'acides aminés depuis le fichier blast .psq */
 
 #include "sequence.h"
 #include <iostream>
@@ -20,7 +16,7 @@ Sequence::~Sequence(){
 	
 }
 
-vector<int> Sequence:: getSequence(){
+vector<int> Sequence:: getSequence(){   //getSequence renvoie un vecteur d'entiers correspondant aux acides aminés
 	vector<int> data;
 	int8_t i1;
 	while(psq.read((char*) (&i1), sizeof(i1))) {

@@ -1,3 +1,5 @@
+/* La classe Input possède les informations relatives au fichier .pin de la database. */
+
 #ifndef INPUT_H
 #define INPUT_H
 #include <iostream>
@@ -13,10 +15,10 @@ class Input
 	string filename;
 	int version;
 	int db_type;
-	int title_length;
-	char* title;
+	int title_length;		//correspond à la taille du titre
+	char* title;			//correspond au titre
 	int timestamp_length;
-	char* timestamp;
+	char* timestamp;		//correspond à la date de création de la database
 	int nbSequences;		//correspond au nombre de protéines dans la database
 	int64_t residueCount;		//donne le nombre total d'acides aminés repris dans la database
 	int maxSequence;		//donne la longueur de la séquence la plus longue de la database

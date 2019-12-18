@@ -397,7 +397,7 @@ Le 2 signifie que le score a été calculé depuis l'élément en haut dans la m
 	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
 	t = clock() - t;
 	
-	//toutes les infos relatives au résultats sont imprimées en fin de programme de manière équivalente à swipe
+/*toutes les infos relatives au résultats sont imprimées en fin de programme de manière équivalente à swipe*/
 	
 
 	cout << "Database title : " << pin.getTitle() << endl;

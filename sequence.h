@@ -1,3 +1,5 @@
+/* La classe sequence permet de récupérer la séquence d'acides aminés depuis le fichier blast .psq */
+
 #include <string>
 #include <vector>
 #include <fstream>

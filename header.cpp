@@ -1,8 +1,4 @@
-/* 
-
-La classe header permet de traiter les fichiers blast .phr contenant le nom ainsi que l'ID des différentes protéines
-
-*/
+/* La classe header permet de traiter les fichiers blast .phr contenant le nom ainsi que l'ID des différentes protéines */
 
 
 
@@ -21,22 +17,22 @@ Header::~Header(){
 	phr.close();
 }
 
-char* Header::getTitle(int offset) {
+char* Header::getTitle(int offset) { //getTitle prend en argument l'offset d'une protéine de la database et récupère son nom
 	phr.seekg(offset);
 	uint8_t var;
 	while(phr.read( (char*)(&var), sizeof(var)))
 	{
-		if(var == 160) //A0 en hex
+		if(var == 160) //correspond à A0 en hexadécimal
 		{
 			phr.read( (char*)(&var), sizeof(var));
-			if(var == 128) //80
+			if(var == 128) //correspond à 80 en hexadécimal
 			{
 				phr.read( (char*)(&var), sizeof(var));
-				if(var == 26) //1A
+				if(var == 26) //correspond à 1A en hexadécimal
 				{
-					phr.read( (char*)(&var), sizeof(var));
+					phr.read( (char*)(&var), sizeof(var));//ce qui suit A0801A correspond à la taille sur laquelle est codé le titre
 					
-					if(var >= 128) //1st bit is a 1 : var(-128 to set 1st bit to 0) = number of bytes on which the length of the title is encoded
+					if(var >= 128) //si le premeir bit est à 1 : var(-128 met le premier bit à 0) = nombre de bytes sur lequel est codé le nom
 					{
 						int nbBytes = var-128;
 						unsigned long title_length ;
@@ -53,7 +49,7 @@ char* Header::getTitle(int offset) {
 						//cout << title_length << " : " << title << endl;
 						return title;
 					}
-					else // 1st bit is a 0 : var = title_length
+					else // si le premier bit est à 0 : var = longueur du titre
 					{
 						title = new char[var+1];
 						title[var] = '\0';
@@ -68,16 +64,16 @@ char* Header::getTitle(int offset) {
 }
 
 
-int Header::getID(int offset) {
+int Header::getID(int offset) { //getID prend en argument l'offset d'une protéine de la database et récupère son ID 
 	phr.seekg(offset);
 	uint8_t var;
 	while(phr.read( (char*)(&var), sizeof(var)))
 	{
-		if(var == 2) //2 aussi en hex
-		{
+		if(var == 2)    //lorsqu'on tombe sur un 02 en hexadécimal (correspond également à 2 en base 10), on sait que le bit 
+		{		//qui suit correspond aux nombres de bits sur lesquels est codé l'ID
 				
 			phr.read( (char*)(&var), sizeof(var));
-            unsigned long ID;
+         	        unsigned long ID;
 			uint8_t x;
 			ID = 0;
 			for (int j = 0; j < var; j++){ 

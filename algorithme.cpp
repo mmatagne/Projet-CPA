@@ -1,3 +1,6 @@
+/*La classe algorithme possède tout le code relatif à l'exécution de l'algorithme de Smith-Waterman. */
+
+
 #include <iostream>
 #include "algorithme.h"
 using namespace std;
