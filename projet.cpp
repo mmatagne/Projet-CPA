@@ -8,7 +8,6 @@
 #include <vector>
 #include <map>
 #include <forward_list>
-#include "sequence.h"
 #include "header.h"
 #include "algorithme.h"
 
