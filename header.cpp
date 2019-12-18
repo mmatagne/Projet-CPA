@@ -1,3 +1,11 @@
+/* 
+
+La classe header permet de traiter les fichiers blast .phr contenant le nom ainsi que l'ID des différentes protéines
+
+*/
+
+
+
 #include <iostream>
 #include <fstream> 
 #include "header.h"

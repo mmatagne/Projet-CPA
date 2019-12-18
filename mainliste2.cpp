@@ -76,13 +76,13 @@ int main(int argc, char **argv) {
 	}
 
 	
-	Input pin(namepin); 
-	pin.readfile();
+	Input pin(namepin); 	//on créé un objet de la classe Input prenant comme attribut le fichier .pin
+	pin.readfile();         //la fonction readfile permet de donner les valeurs aux attributs de l'objet
 	Header phr(namephr);
 	
-	map<char,int> conversion = BDDSequences::getConversionMap();
+	map<char,int> conversion = BDDSequences::getConversionMap();  //renvoie la map définie dans BBDSequences qui fait correspondre chaque 								              // caractère d'acide aminé à un entier, défini par le formalisme blast
 	
-	Matrice matscore(matrix_name);
+	Matrice matscore(matrix_name);			
 	
 	int** blosum = matscore.getMatrice();
 	//int blosum[28][28];
@@ -107,13 +107,13 @@ int main(int argc, char **argv) {
 	{
 		if(ch != '\n') 
 		{
-			AAValue_vector.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char dans un vecteur AAValue
+			AAValue_vector.push_back(conversion[ch]); //on stock toutes les valeurs de int correspondant aux char de la séquence dans un vecteur AAValue
 		}
 	}
 	
-	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]);
+	int sizedb =  __bswap_32(pin.getSequenceOffsetTable()[pin.getNbSequences()]); //renvoie l'offset de la dernière protéine de la database
 	//BDDSequences sequences(b, sizedb);
-	BDDSequences sequences(namepsq, sizedb);
+	BDDSequences sequences(namepsq, sizedb); //on créé un objet de la classe BBDSequences 
 	
 	
 
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
 	table = sequences.getTable();
 	int sizeref = AAValue_vector.size();
 	
-	int* AAValue = &AAValue_vector[0];
+	int* AAValue = &AAValue_vector[0];  //on créé un pointeur vers le premier élément du vecteur
 
 	
 	//int open_pen = 11;
@@ -376,7 +376,9 @@ int main(int argc, char **argv) {
 	//cout << phr.getTitle(__bswap_32(pin.getHeaderOffsetTable()[2958])) << endl;
 	t = clock() - t;
 	
+	//toutes les infos relatives au résultats sont imprimées en fin de programme de manière équivalente à swipe
 	
+
 	cout << "Database title : " << pin.getTitle() << endl;
 	cout << "Database time : " << pin.getTime() << endl;
 	cout << "Database size : " << pin.getNbRes() << " residues in " << pin.getNbSequences() << " sequences" << endl;
