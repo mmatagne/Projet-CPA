@@ -1,5 +1,5 @@
-all : input.o matrice.o proteine.o header.o BDDSequences.o algorithme.o mainliste3.cpp
-	g++ -Ofast -o out input.o matrice.o BDDSequences.o proteine.o header.o algorithme.o mainliste3.cpp 
+all : input.o matrice.o proteine.o header.o BDDSequences.o algorithme.o projet.cpp
+	g++ -Ofast -o projet input.o matrice.o BDDSequences.o proteine.o header.o algorithme.o projet.cpp 
 input.o: input.cpp
 	g++ -c input.cpp
 matrice.o: matrice.cpp
