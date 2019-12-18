@@ -147,7 +147,12 @@ int main(int argc, char **argv) {
 		cout << endl;
 
 	}
-	
+	//Liberation mémoire vecteur des proteines du traceback :
+	for(int i =0; i<10; i++)
+	{
+		delete protVect[i];
+	}
+	delete [] protVect;
 	
 	return 0;
 }
