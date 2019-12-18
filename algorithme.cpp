@@ -302,4 +302,4 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 	return protVect;
 }
 
-//
+////
