@@ -11,6 +11,6 @@ proteine.o: proteine.cpp
 header.o: header.cpp
 	g++ -c header.cpp
 algorithme.o: algorithme.cpp
-	g++ -c algorithme.cpp
+	g++ -Ofast -c algorithme.cpp
 clean:
 	rm *.o

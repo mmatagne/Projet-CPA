@@ -4,7 +4,6 @@ using namespace std;
 
 Algorithme::Algorithme(Input* input, BDDSequences* bddsequences, vector<int>* query_prot, int** mat, int o_p, int ext_p)
 {
-	//cout<< "pret à lancer algo" << endl;
 	pin = input;
 	sequences = bddsequences;
 	open_pen = o_p;
@@ -14,7 +13,6 @@ Algorithme::Algorithme(Input* input, BDDSequences* bddsequences, vector<int>* qu
 	AAValue = query_prot->data();
 	
 	scoresvect = new int[pin->getNbSequences()];
-	//cout << "Algorithme initialise "<< AAValue[0] << endl;
 	
 }
 
@@ -48,9 +46,9 @@ void Algorithme::run(){
 	int nbseq = pin->getNbSequences();
 	int a;
 	int b;
-/*
-On calcul ci-dessous les scores pour chacune des protéines de la database.
-On commence un for sur toutes les protéines présentes dans la database.*/	
+	/*
+	On calcule ci-dessous les scores pour chacune des protéines de la database.
+	On commence un for sur toutes les protéines présentes dans la database.*/	
     for(int k = 0; k < nbseq;k++)
     //for(int k = 2950; k < 3000;k++)
     //for(int k = 5300; k < 5305;k++)
@@ -72,8 +70,9 @@ On commence un for sur toutes les protéines présentes dans la database.*/
 			for (int j = 1; j < sizeref+1;j++) //on commence un for sur la taille de la protéine inconnue
 			{
 				
-/*On commence par mettre les max de la colonne ainsi que de la ligne à jour. Pour ce faire, on vérifie s'il est plus avantageux de partir de l'élément juste en haut ou juste à gauche dans la matrice ou plutôt depuis l'élément qui a été le plus avantageux jusqu'ici.
-*/		
+				/*On commence par mettre les max de la colonne ainsi que de la ligne à jour. Pour ce faire, on vérifie s'il est plus avantageux de partir 
+				* de l'élément juste en haut ou juste à gauche dans la matrice ou plutôt depuis l'élément qui a été le plus avantageux jusqu'ici.
+				*/		
 				if(T[j]-open_pen < max_colonne[j-1]-ext_pen)
 				{
 					
@@ -102,8 +101,9 @@ On commence un for sur toutes les protéines présentes dans la database.*/
 				
 				max_ligne = max_ligne - ext_pen;
 
-/* On applique ici l'algorithme de Smith-Waterman en comparant les 4 scores possibles pour un élément. A savoir les scores calculés à partir de l'élément en haut à gauche, en haut, à gauche et le score nul.
-*/			
+				/* On applique ici l'algorithme de Smith-Waterman en comparant les 4 scores possibles pour un élément.
+				*  A savoir les scores calculés à partir de l'élément en haut à gauche, en haut, à gauche et le score nul.
+				*/			
 				int value;
 				//cout << table[offsetBegin+i-1] << endl;
 				//cout << j << endl;
@@ -166,8 +166,11 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 		scoresvect[k]=-1; //on supprime le meilleur élément trouvé dans le vecteur pour qu'à la prochaine itération, on trouve le meilleur score suivant
 		
 		// CONSTRUCTION DE MEMO SUR BASE DE L'ALGO
-/*Pour ces 10 protéines ayant les meilleurs scores, on recommence l'opération du calcul des scores mais cette fois en créant parallèlement une matrice MEMO qui nous indiquera comment chaque élément de la matrice des scores à été trouvé. Il y a 4 possibilités explicitées plus bas lors du traceback. On sauvegarde également les index du maximum global de cette matrice des scores.
-*/
+		/*Pour ces 10 protéines ayant les meilleurs scores, on recommence l'opération du calcul des scores mais 
+		 * cette fois en créant parallèlement une matrice MEMO qui nous indiquera comment chaque élément de la 
+		 * matrice des scores à été trouvé. Il y a 4 possibilités explicitées plus bas lors du traceback. 
+		 * On sauvegarde également les index du maximum global de cette matrice des scores.
+		*/
 		int sauve = 0;
 		int globalmax_i = 0;
 		int globalmax_j = 0;
@@ -279,9 +282,13 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 			//cout << j << endl;
 			//cout << MEMO[i][j] << endl;
 
-/*
-Si on tombe sur un 1 dans la MEMO, cela signifie que le score a été calculé depuis l'élément diagonale en haut à gauche dans la matrice des scores. On ajoute donc cet élément aux deux séquences correspondant à la protéine inconnue ainsi qu'à celle de la database 	qu'on va garder. On fixe ensuite i et j correspondant à ce nouvel élément et, à condition que celui-ci soit différent de zéro, on retourne dans la boucle pour vérifier comment celui-ci a été calculé. Les éléments sont par ailleurs rajoutés au début des listes de sorte à ce que les séquences se retrouve dans l'ordre à la fin de l'opération.
-*/
+			/*
+			Si on tombe sur un 1 dans la MEMO, cela signifie que le score a été calculé depuis l'élément diagonale en haut à gauche 
+			* dans la matrice des scores. On ajoute donc cet élément aux deux séquences correspondant à la protéine inconnue ainsi 
+			* qu'à celle de la database 	qu'on va garder. On fixe ensuite i et j correspondant à ce nouvel élément et, à condition 
+			* que celui-ci soit différent de zéro, on retourne dans la boucle pour vérifier comment celui-ci a été calculé. Les éléments 
+			* sont par ailleurs rajoutés au début des listes de sorte à ce que les séquences se retrouve dans l'ordre à la fin de l'opération.
+			*/
 			if(MEMO[i][j] == 1)
 			{
 				listeInconnue.push_front(AAValue[j-1]);
@@ -289,18 +296,21 @@ Si on tombe sur un 1 dans la MEMO, cela signifie que le score a été calculé d
 				i -= 1;
 				j -= 1;
 			}
-/*
-Le 3 signifie que le score a été calculé depuis l'élément de gauche dans la matrice des scores. Cela correspond à un 'gap' dans la séquence de la protéine inconnue, on lui ajoute donc un zéro correspondant au caractère '-'. Pour la protéine de la database, l'élément correspondant est ajouté. On ne change donc que de colonne et que l'index i est affecté d'un -1.
-*/
+			/*
+			* Le 3 signifie que le score a été calculé depuis l'élément de gauche dans la matrice des scores. Cela correspond à un 'gap' 
+			* dans la séquence de la protéine inconnue, on lui ajoute donc un zéro correspondant au caractère '-'. Pour la protéine de 
+			* la database, l'élément correspondant est ajouté. On ne change donc que de colonne et que l'index i est affecté d'un -1.
+			*/
 			if(MEMO[i][j] == 3)
 			{
 				listeInconnue.push_front(0);
 				listeDb.push_front(table[offsetBegin+i-1]);
 				i -= 1;
 			}
-/*
-Le 2 signifie que le score a été calculé depuis l'élément en haut dans la matrice des scores. Il s'agit donc de l'opération duale au cas précédent.
-*/
+			/*
+			Le 2 signifie que le score a été calculé depuis l'élément en haut dans la matrice des scores. Il s'agit donc de l'opération
+			* duale au cas précédent.
+			*/
 			if(MEMO[i][j] == 2)
 			{
 				listeInconnue.push_front(AAValue[j-1]);
@@ -314,7 +324,6 @@ Le 2 signifie que le score a été calculé depuis l'élément en haut dans la m
 		}
 		delete [] MEMO; //à la fin du traceback, on supprime la MEMO de sorte à libérer de l'espace mémoire
 		protVect[iota] = new Proteine(k,maximum,listeInconnue,listeDb);
-		//cout<<"Proteine "<< k << " de score " << maximum << " créée" <<endl;	
 	}
 	return protVect;
 }
