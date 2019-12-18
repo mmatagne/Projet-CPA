@@ -28,7 +28,8 @@ BDDSequences::~BDDSequences(){
 	delete table;
 	cout << "No probleme bdd"<< endl;
 }
-const map<char, int> BDDSequences::conversion = {
+const map<char, int> BDDSequences::conversion = {  //cette map fait correspondre chaque caractère d'acide
+						   //aminé à un entier comme défini par le formalisme blast
 	{'-', 0 },
 	{'A', 1 },
 	{'B', 2 },

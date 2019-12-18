@@ -13,8 +13,8 @@ Input::~Input(){
 	cout << "No probleme input"<< endl;
 }
 
-void Input::readfile() {
-	ifstream file (filename, ios::in | ios::binary);
+void Input::readfile() {					//la fonction readfile lit le fichier binaire .pin et stock les valeurs 
+	ifstream file (filename, ios::in | ios::binary);	//lues dans les attributs correspondants
 	file.read( (char*)(&version), sizeof(version) );
 	version = __bswap_32(version);
 	file.read( (char*)(&db_type), sizeof(db_type) );
@@ -40,8 +40,8 @@ void Input::readfile() {
 }
 
 
-int* Input::getHeaderOffsetTable() {
-	return headerOffsetTable;
+int* Input::getHeaderOffsetTable() {		//plusieurs accesseurs sont prévus pour les attributs de la classe Input  
+	return headerOffsetTable;		//auquels on devra encore avoir accès dans le programme
 }
 
 int* Input::getSequenceOffsetTable() {
