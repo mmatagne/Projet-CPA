@@ -1,6 +1,8 @@
-/* La classe protéine possède des attributs relative à une protéine de la database tel que son offset dans la database, son score relatif
-à une protéine inconnue traitée dans le main ainsi que les séquences d'acides aminés des deux protéines correspondant au score calculé.  */
-
+/* La classe Proteine possède des attributs relatifs à une protéine de 
+ * la database tel que son indice dans la database, son score relatif
+ * à une protéine inconnue traitée dans le main ainsi que les séquences 
+ * d'acides aminés des deux protéines correspondant au score calculé (traceback).  
+ */
 
 #include "proteine.h"
 #include "BDDSequences.h"
@@ -9,8 +11,9 @@
 using std::cout;
 using std::endl;
 
-map<int, char> conversion = {		//cette map fait correspondre chaque entier à un caractère d'acide
-				        //aminé, comme défini par le formalisme blast
+//Map qui fait correspondre chaque entier à un caractère d'acide
+//aminé, comme défini par le formalisme blast
+map<int, char> conversion = {		
 	{0,'-'},
 	{1,'A'},
 	{2,'B'},
@@ -54,12 +57,13 @@ Proteine::~Proteine(){
 	
 }
 
-
-int Proteine::getNb() const{			//plusieurs accesseurs sont prévus pour les attributs de la classe Protéine auquels on devra avoir accès
+//Plusieurs accesseurs sont prévus pour les attributs de la classe Protéine auquels on devra avoir accès
+int Proteine::getNb() const{			
 	return protNb;
 }
 
-int Proteine::getScore() const{			//la fonction getScore renvoie le score brut modifié
+//Renvoie le score brut modifié
+int Proteine::getScore() const{
 	return (0.267*score	+ 3.34)/0.69314718056;
 }
 
@@ -67,8 +71,11 @@ int Proteine::getRawScore() const{
 	return score;
 }
 
-void Proteine::printResult() { 			 //la fonction printResult imprime les séquences des deux protéines comparées 60 par 60 avant 
-	auto it = listeInconnue.begin();	 //de passer à la ligne, de la même manière que swipe
+
+//Imprime les séquences des deux protéines comparées 60 par 60 avant
+//de passer à la ligne, de la même manière que swipe.
+void Proteine::printResult() { 			  
+	auto it = listeInconnue.begin();	 
 	auto it2 = listeDb.begin();
 	int j = 0;
 	
@@ -100,5 +107,4 @@ void Proteine::printResult() { 			 //la fonction printResult imprime les séquen
 		cout << endl;
 	}
 }
-//
 

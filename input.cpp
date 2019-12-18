@@ -1,6 +1,5 @@
 /* La classe Input possède les informations relatives au fichier .pin de la database. */
 
-
 #include "input.h"
 
 
@@ -15,8 +14,12 @@ Input::~Input(){
 	
 }
 
-void Input::readfile() {					//la fonction readfile lit le fichier binaire .pin et stock les valeurs 
-	ifstream file (filename, ios::in | ios::binary);	//lues dans les attributs correspondants
+
+//Lit le fichier binaire .pin et stocke les valeurs lues dans les attributs
+//correspondants.
+//bswap_32 est utilisé pour transformer les nombres de big endian a little endian.
+void Input::readfile() {					 
+	ifstream file (filename, ios::in | ios::binary); //Fichier ouvert en tant que fichier binaire
 	file.read( (char*)(&version), sizeof(version) );
 	version = __bswap_32(version);
 	file.read( (char*)(&db_type), sizeof(db_type) );
@@ -42,8 +45,10 @@ void Input::readfile() {					//la fonction readfile lit le fichier binaire .pin 
 }
 
 
-int* Input::getHeaderOffsetTable() {		//plusieurs accesseurs sont prévus pour les attributs de la classe Input  
-	return headerOffsetTable;		//auquels on devra encore avoir accès dans le programme
+//Plusieurs accesseurs sont prévus pour les attributs de la classe Input 
+
+int* Input::getHeaderOffsetTable() {		 
+	return headerOffsetTable;
 }
 
 int* Input::getSequenceOffsetTable() {

@@ -1,5 +1,3 @@
-/*La classe algorithme possède tout le code relatif à l'exécution de l'algorithme de Smith-Waterman. */
-
 #ifndef ALGORITHME_H
 #define ALGORITHME_H
 #include <iostream>
@@ -20,7 +18,7 @@ class Algorithme
 	int ext_pen;
 	int* AAValue; // vecteur de la 'query protein'
 	int sizeref; // taille du vecteur de la 'query protein'
-	int* scoresvect; // table des scores des protéines de la database
+	int* scoresvect; // tableau des scores des protéines de la database
 	Proteine** protVect;
 	int getMax(int* array, int array_size);
 	

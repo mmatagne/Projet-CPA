@@ -1,6 +1,5 @@
-/* La classe header permet de traiter les fichiers blast .phr contenant le nom ainsi que l'ID des différentes protéines */
-
-
+/* La classe Header permet de traiter les fichiers binaires .phr contenant 
+ * le titre ainsi que le BL_ORD_ID des différentes protéines */
 
 #include <iostream>
 #include <fstream> 
@@ -17,7 +16,9 @@ Header::~Header(){
 	phr.close();
 }
 
-char* Header::getTitle(int offset) { //getTitle prend en argument l'offset d'une protéine de la database et récupère son nom
+
+//getTitle prend en argument l'offset d'une protéine de la database et récupère son titre
+char* Header::getTitle(int offset) { 
 	phr.seekg(offset);
 	uint8_t var;
 	while(phr.read( (char*)(&var), sizeof(var)))
@@ -46,7 +47,6 @@ char* Header::getTitle(int offset) { //getTitle prend en argument l'offset d'une
 						title = new char[title_length+1];
 						title[title_length] = '\0';
 						phr.read(title, title_length*sizeof(char));
-						//cout << title_length << " : " << title << endl;
 						return title;
 					}
 					else // si le premier bit est à 0 : var = longueur du titre
@@ -54,7 +54,6 @@ char* Header::getTitle(int offset) { //getTitle prend en argument l'offset d'une
 						title = new char[var+1];
 						title[var] = '\0';
 						phr.read(title, var*sizeof(char));
-						//cout<< title << endl;
 						return title;
 					}
 				}
@@ -64,14 +63,14 @@ char* Header::getTitle(int offset) { //getTitle prend en argument l'offset d'une
 }
 
 
-int Header::getID(int offset) { //getID prend en argument l'offset d'une protéine de la database et récupère son ID 
+//getID prend en argument l'offset d'une protéine de la database et récupère son ID
+int Header::getID(int offset) {  
 	phr.seekg(offset);
 	uint8_t var;
 	while(phr.read( (char*)(&var), sizeof(var)))
 	{
 		if(var == 2)    //lorsqu'on tombe sur un 02 en hexadécimal (correspond également à 2 en base 10), on sait que le bit 
-		{		//qui suit correspond aux nombres de bits sur lesquels est codé l'ID
-				
+		{				//qui suit correspond aux nombres de bits sur lesquels est codé l'ID	
 			phr.read( (char*)(&var), sizeof(var));
          	        unsigned long ID;
 			uint8_t x;

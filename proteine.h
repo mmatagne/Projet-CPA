@@ -1,6 +1,3 @@
-/* La classe protéine possède des attributs relative à une protéine de la database tel que son offset dans la database, son score relatif
-à une protéine inconnue traitée dans le main ainsi que les séquences d'acides aminés des deux protéines correspondant au score calculé.  */
-
 #ifndef PROTEINE_H
 #define PROTEINE_H
 #include <string>

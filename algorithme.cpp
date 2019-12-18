@@ -1,5 +1,10 @@
-/*La classe algorithme possède tout le code relatif à l'exécution de l'algorithme de Smith-Waterman. */
-
+/*La classe Algorithme possède tout le code relatif à l'exécution de 
+ * l'algorithme de Smith-Waterman ainsi qu'à l'exécution du traceback 
+ * La pricipale optimisation apportée est le fait d'utiliser uniquement
+ * un tableau à une dimension représentant une ligne de la matrice de
+ * scores au lieu d'un tableau 2D.
+ * La mémoisation est utilisée dans le stockage de maximums par ligne et 
+ * par colonne.*/
 
 #include <iostream>
 #include "algorithme.h"
@@ -29,10 +34,8 @@ int Algorithme::getMax(int* array , int array_size){
 	for(int i=0; i<array_size; i++){
 		if(array[i]>array[index_of_max]) {
 			index_of_max = i;
-			//cout<<"New max found " <<index_of_max << endl;
 		}
 	}
-	//cout<< "Index of max : " << index_of_max  << endl;
 	return index_of_max;
 }
 
@@ -49,17 +52,14 @@ void Algorithme::run(){
 	int b;
 	/*
 	On calcule ci-dessous les scores pour chacune des protéines de la database.
-	On commence un for sur toutes les protéines présentes dans la database.*/	
+	On commence une boucle for sur toutes les protéines présentes dans la database.*/	
     for(int k = 0; k < nbseq;k++)
-    //for(int k = 2950; k < 3000;k++)
-    //for(int k = 5300; k < 5305;k++)
-    //2958:6525, 2959:5957
     {	
 		
 		int sauve = 0;
 		int maximum = 0; //correspondra au maximum en temps réel lors du calcul des scores
-		int offsetEnd = __bswap_32(pin->getSequenceOffsetTable()[k+1]); //donne la position de l'offset de la (k+1)ème protéine, correspond donc au premier élément ne concernant pas la séquence de la k ème protéine qui nous intéresse
-		int offsetBegin = __bswap_32(pin->getSequenceOffsetTable()[k]); //donne l'offset de la k ème protéine
+		int offsetEnd = __bswap_32(pin->getSequenceOffsetTable()[k+1]); //donne l'indice de la (k+1)ème protéine, correspond donc au premier élément ne concernant pas la séquence de la k ème protéine qui nous intéresse
+		int offsetBegin = __bswap_32(pin->getSequenceOffsetTable()[k]); //donne l'indice de la k ème protéine
 		
 		int T[sizeref+1] = {}; //à la place d'utiliser une matrice pour calculer les scores, on utilise un tableau de la taille d'une ligne afin d'économiser de la mémoire.
 		
@@ -67,7 +67,7 @@ void Algorithme::run(){
 		
 		for(int i = 1; i < offsetEnd-offsetBegin; i++) //on commence un for sur le nombre d'éléments de la séquence k (taille de la protéine)
 		{
-			int max_ligne = 0; //correspond au max de la ligne avec laquelle on est occupée. Lorqu'on commence, celui-ci est nul.
+			int max_ligne = 0; //correspond à la valeur maximale obtenue par un gap_extension sur la ligne considérée.
 			for (int j = 1; j < sizeref+1;j++) //on commence un for sur la taille de la protéine inconnue
 			{
 				
@@ -106,10 +106,6 @@ void Algorithme::run(){
 				*  A savoir les scores calculés à partir de l'élément en haut à gauche, en haut, à gauche et le score nul.
 				*/			
 				int value;
-				//cout << table[offsetBegin+i-1] << endl;
-				//cout << j << endl;
-				//cout << AAValue[j-1] << endl;
-				//cout<< "algorithme lancé "<< blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]]<< endl;
 				
 				if(sauve + blosum[(int)table[offsetBegin+i-1]][AAValue[j-1]] < 0 && a < 0 && b < 0) //cas où zéro est le meilleur score
 				{
@@ -140,21 +136,18 @@ void Algorithme::run(){
 				}
 			}
 		}
-		
-		scoresvect[k] = maximum; //on stock le maximum correspondant au score de la protéine dans un vecteur qui contiendra les scores de toutes les protéines de la database
-		
-		//if (score>2500) cout << "Score : " << k << " "<< score << endl;
-		//int sbit = (0.267*score	+ 3.34)/0.69314718056;
-		//cout << "Score normalisé " << k << ": " << sbit << endl;
-		
+		scoresvect[k] = maximum; //on stock le maximum correspondant au score de la protéine dans un vecteur qui contiendra les scores de toutes les protéines de la database	
 	}
 }
 
+
+//getAlignement effectue l'opération de traceback, et renvoie un vecteur 
+// contenant les 10 meilleures protéines.
 Proteine** Algorithme::getAlignment(int nb_prot)
 {
 	//DEBUT DU TRACEBACK 
 	
-	//création vecteur de Prot
+	//création vecteur de Proteines.
 	protVect = new Proteine*[nb_prot];
 	int k = 0;
 	int a;
@@ -265,7 +258,6 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 					globalmax_j = j;
 				}
 			}
-			//cout << maximum << endl;
 		}
 		
 		//DEBUT DU TRACEBACK DANS LA MATRICE MEMO	
@@ -273,22 +265,15 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 		int j = globalmax_j;
 		forward_list<int> listeInconnue;
 		forward_list<int> listeDb;
-		//listeInconnue.push_front(AAValue[j-1]);
-		//listeDb.push_front(table[offsetBegin+i]);
-		//cout << i << endl;
-		//cout << j << endl;
+
 		while(MEMO[i][j] != 0)  //on arrête le traceback lorsqu'on tombe sur un élément nulle dans la MEMO
 		{
-			//cout << i << endl;
-			//cout << j << endl;
-			//cout << MEMO[i][j] << endl;
-
 			/*
 			Si on tombe sur un 1 dans la MEMO, cela signifie que le score a été calculé depuis l'élément diagonale en haut à gauche 
 			* dans la matrice des scores. On ajoute donc cet élément aux deux séquences correspondant à la protéine inconnue ainsi 
-			* qu'à celle de la database 	qu'on va garder. On fixe ensuite i et j correspondant à ce nouvel élément et, à condition 
+			* qu'à celle de la database qu'on va garder. On fixe ensuite i et j correspondant à ce nouvel élément et, à condition 
 			* que celui-ci soit différent de zéro, on retourne dans la boucle pour vérifier comment celui-ci a été calculé. Les éléments 
-			* sont par ailleurs rajoutés au début des listes de sorte à ce que les séquences se retrouve dans l'ordre à la fin de l'opération.
+			* sont par ailleurs rajoutés au début des listes de sorte à ce que les séquences se retrouvent dans l'ordre à la fin de l'opération.
 			*/
 			if(MEMO[i][j] == 1)
 			{
@@ -323,8 +308,8 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 		for(int i = 0; i < offsetEnd-offsetBegin; ++i) {
 			delete [] MEMO[i];
 		}
-		delete [] MEMO; //à la fin du traceback, on supprime la MEMO de sorte à libérer de l'espace mémoire
-		protVect[iota] = new Proteine(k,maximum,listeInconnue,listeDb);
+		delete [] MEMO; //à la fin du traceback, on supprime la MEMO de sorte à libérer l'espace mémoire qui lui était alloué
+		protVect[iota] = new Proteine(k,maximum,listeInconnue,listeDb); //on rajoute la protéine étudiée au vecteur à renvoyer
 	}
 	return protVect;
 }

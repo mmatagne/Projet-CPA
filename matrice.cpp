@@ -1,7 +1,8 @@
-/* La classe Matrice permet de créer une matrice à partir d'un fichier texte contenant une matrice blossum. */
-
 #include "matrice.h"
 #include "BDDSequences.h"
+/* La classe Matrice permet de créer une matrice à partir d'un fichier 
+ * texte contenant une matrice blosum. */
+
 #include <iostream>
 #include <map>
 using std::cout;
@@ -24,7 +25,7 @@ Matrice::~Matrice(){
 void Matrice::create_matrice() {
 	map<int, char> AA_order;
 	map<char, int> AA_conversion = BDDSequences::getConversionMap();
-	matrice = new int*[28]; //quel que soit la taille de la blossum, la matrice créée sera toujours de taille 28*28
+	matrice = new int*[28]; //quelle que soit la taille de la blossum, la matrice créée sera toujours de taille 28*28
 	for(int l = 0; l<28; l++) matrice[l]=new int[28]();
 	const string entiers = "-0123456789";
 	int res;
@@ -62,22 +63,6 @@ void Matrice::create_matrice() {
 			}
 			i++; 
 		}
-		
-		
-		/* AFFICHAGE DE LA MATRICE LUE
-		for(int i = 0; i<k;i++){
-			for(int j = 0; j<k; j++){
-				string espace = "";
-				if(matrice[i][j]>=0) espace+=" ";
-				if(matrice[i][j]-10 <= 0) espace+=" ";
-				cout<<espace<<matrice[i][j];
-				
-			}
-			cout<<endl;
-
-		}
-		*/
-		
 		fichier.close();
 	}
 	else {

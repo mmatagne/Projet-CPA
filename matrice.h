@@ -1,5 +1,3 @@
-/* La classe Matrice permet de créer une matrice à partir d'un fichier texte contenant une matrice blossum. */
-
 #ifndef MATRICE_H
 #define MATRICE_H
 #include <iostream>
