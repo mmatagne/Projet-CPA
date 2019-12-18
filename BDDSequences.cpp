@@ -14,6 +14,10 @@ BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 	ifstream psq;
 	
 	psq.open(db_psqfile, ios::in | ios::binary);
+	if(!psq.is_open()) {
+		cout << "Problème à la lecture du fichier base de données : " << db_psqfile << endl;
+		exit(EXIT_FAILURE);
+	}
 	psq.read(table, db_size);  //stocke tous les acides aminés de toutes les protéines de la database dans l'attribut table
 	psq.close();		   
 	

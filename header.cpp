@@ -10,6 +10,10 @@ using namespace std;
 Header::Header(string phrfile) {
 	filename = phrfile;
 	phr.open(filename, ios::in | ios::binary);
+	if(!phr.is_open()) {
+		cout << "Problème à la lecture du fichier base de données : " << phrfile << endl;
+		exit(EXIT_FAILURE);
+	}
 }
 
 Header::~Header(){

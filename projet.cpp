@@ -82,7 +82,8 @@ int main(int argc, char **argv) {
 	
 	if (!protFile) 
 	{
-		cout << "Erreur à l'ouverture du fichier de la query." << endl;
+		cout << "Erreur à l'ouverture du fichier de la query. - Sortie" << endl;
+		return 1;
 	}
 	
 	//Lecture de la première ligne du fichier de la query (contient le titre de la protéine).

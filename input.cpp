@@ -20,6 +20,10 @@ Input::~Input(){
 //bswap_32 est utilisé pour transformer les nombres de big endian a little endian.
 void Input::readfile() {					 
 	ifstream file (filename, ios::in | ios::binary); //Fichier ouvert en tant que fichier binaire
+	if(!file.is_open()) {
+		cout << "Problème à la lecture du fichier base de données : " << filename << endl;
+		exit(EXIT_FAILURE);
+	}
 	file.read( (char*)(&version), sizeof(version) );
 	version = __bswap_32(version);
 	file.read( (char*)(&db_type), sizeof(db_type) );
