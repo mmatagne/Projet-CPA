@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 	{
 		cout << "Erreur dans le nombre de paramètres." << endl;
 		cout << "Veuillez introduire le nom du fichier de la protéine puis celui de la base de données." << endl;
-		cout << "Les paramètres optionnels sont : la matrice BLOSUM précédée du flag -m" << endl;
+		cout << "Les paramètres optionnels sont :" << endl;
 		cout << "-la matrice BLOSUM précédée du flag -m" << endl;
 		cout << "-le gap open penalty précédé du flag -gop" << endl;
 		cout << "-le gap extension penalty précédé du flag -gep" << endl;
