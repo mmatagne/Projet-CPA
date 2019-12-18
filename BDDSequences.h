@@ -1,3 +1,5 @@
+/* L'utilité de la classe BBDSequences est de ramener toutes les séquences d'acides aminés de la database (du fichier .psq) vers la mémoire RAM de sorte à y avoir un accès plus rapide*/
+
 #ifndef BDD_H
 #define BDD_H
 #include <string>

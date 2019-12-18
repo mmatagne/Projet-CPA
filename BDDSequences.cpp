@@ -1,3 +1,6 @@
+/* L'utilité de la classe BBDSequences est de ramener toutes les séquences d'acides aminés de la database (du fichier .psq) vers la mémoire RAM de sorte à y avoir un accès plus rapide*/
+
+
 #include "BDDSequences.h"
 #include <iostream>
 using std::cout;
@@ -10,16 +13,9 @@ BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 	ifstream psq;
 	
 	psq.open(db_psqfile, ios::in | ios::binary);
-	psq.read(table, db_size);
-	psq.close();
-	int i = 0;
+	psq.read(table, db_size);  //stock tous les acides aminés de toutes les protéines de la database dans l'attribut table
+	psq.close();		   
 	
-	for(int j = 0; j<4; j++){
-		i++;
-		while((int)table[i])
-		{
-			i++;
-		}
 	}
 	
 }
