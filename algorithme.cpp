@@ -18,9 +18,7 @@ Algorithme::Algorithme(Input* input, BDDSequences* bddsequences, vector<int>* qu
 
 Algorithme::~Algorithme(){
 	
-	//delete [] scoresvect;
-	
-	cout << "No probleme algo"<< endl;
+	delete [] scoresvect;
 }
 
 int Algorithme::getMax(int* array , int array_size){
@@ -328,4 +326,3 @@ Proteine** Algorithme::getAlignment(int nb_prot)
 	return protVect;
 }
 
-////

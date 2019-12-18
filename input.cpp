@@ -10,7 +10,6 @@ Input::Input(){}
 
 Input::~Input(){
 	
-	cout << "No probleme input"<< endl;
 }
 
 void Input::readfile() {					//la fonction readfile lit le fichier binaire .pin et stock les valeurs 

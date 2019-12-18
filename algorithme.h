@@ -1,3 +1,5 @@
+#ifndef ALGORITHME_H
+#define ALGORITHME_H
 #include <iostream>
 #include <vector>
 #include "input.h"
@@ -28,3 +30,4 @@ class Algorithme
 	int* getScoresTable();
 	Proteine** getAlignment(int nb_prot);
 };
+#endif

@@ -1,3 +1,5 @@
+#ifndef MATRICE_H
+#define MATRICE_H
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -17,4 +19,4 @@ class Matrice {
 	~Matrice();
 	int** getMatrice() const;
 };
-
+#endif

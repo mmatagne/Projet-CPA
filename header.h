@@ -1,3 +1,5 @@
+#ifndef HEADER_H
+#define HEADER_H
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -19,5 +21,4 @@ class Header
 	int getID(int offset);
 
 };
-
-//test
+#endif

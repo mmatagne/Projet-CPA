@@ -18,7 +18,6 @@ Header::Header(string phrfile) {
 }
 
 Header::~Header(){
-	cout << "No probleme header"<< endl;
 	phr.close();
 }
 

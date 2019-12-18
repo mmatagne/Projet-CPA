@@ -47,7 +47,6 @@ Proteine::Proteine(){}
 
 Proteine::~Proteine(){
 	
-	cout << "No probleme prot"<< endl;
 }
 
 

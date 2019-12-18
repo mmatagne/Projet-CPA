@@ -1,3 +1,5 @@
+#ifndef BDD_H
+#define BDD_H
 #include <string>
 #include <vector>
 #include <fstream>
@@ -24,3 +26,4 @@ class BDDSequences
 	
 	
 };
+#endif

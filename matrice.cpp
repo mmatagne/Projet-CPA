@@ -16,7 +16,6 @@ Matrice::~Matrice(){
 		delete[] matrice[i];
 	}
 	delete[] matrice;
-	cout << "No probleme matrice"<< endl;
 	
 }
 
@@ -35,17 +34,14 @@ void Matrice::create_matrice() {
 		
 		while(fichier >> noskipws >> ch) 
 		{
-			//AA_order[k] = ch;
 
 			if(ch == '\n')break;
 			if(ch != ' '){
 				AA_order[k] = ch;
-				//cout << AA_order[k] << " " ;
 				k++;
 			}
 			
 		}
-		//cout<<endl;
 		
 		string line;
 		int i = 0;
@@ -58,17 +54,15 @@ void Matrice::create_matrice() {
 					scoreij += c;
 				}else if(scoreij != ""){
 					matrice[AA_conversion[AA_order[i]]][AA_conversion[AA_order[j]]] = stoi(scoreij);
-					//cout<< stoi(scoreij) << " ";
 					j++;
 					scoreij="";
 				}
 			}
 			i++; 
-			//cout<<endl;
 		}
 		
 		
-		
+		/* AFFICHAGE DE LA MATRICE LUE
 		for(int i = 0; i<k;i++){
 			for(int j = 0; j<k; j++){
 				string espace = "";
@@ -80,6 +74,7 @@ void Matrice::create_matrice() {
 			cout<<endl;
 
 		}
+		*/
 		
 		fichier.close();
 	}

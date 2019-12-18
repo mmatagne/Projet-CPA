@@ -18,7 +18,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
 	
-	clock_t t, t1;
+	clock_t t;
 	char matrix_name[] = "BLOSUM62.txt";
 	int open_pen = 11;
 	int ext_pen = 1;
@@ -97,11 +97,8 @@ int main(int argc, char **argv) {
 	
 	
 	//ALGORITHME 
-	cout<< "pret à lancer algo" << endl;
 	Algorithme algorithme(&pin, &sequences, &AAValue_vector, matscore.getMatrice(), open_pen, ext_pen);
 	algorithme.run();
-	t1 = clock() - t;
-	cout << "Time for first run of algorithm : " << ((float)t1)/CLOCKS_PER_SEC << "s" << endl;
 	Proteine** protVect = algorithme.getAlignment(10);
 	
 	t = clock() - t;

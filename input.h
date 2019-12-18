@@ -1,3 +1,5 @@
+#ifndef INPUT_H
+#define INPUT_H
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -34,3 +36,4 @@ class Input
 	char* getTitle();
 	char* getTime();
 };
+#endif

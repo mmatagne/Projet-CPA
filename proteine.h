@@ -14,7 +14,6 @@ class Proteine
 	int score;
 	forward_list<int> listeInconnue;
 	forward_list<int> listeDb;
-	//static map<char,int> conversion;
 
 	
 	public:

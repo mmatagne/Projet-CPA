@@ -25,8 +25,7 @@ BDDSequences::BDDSequences(string db_psqfile, int db_size) {
 }
 BDDSequences::BDDSequences(){}
 BDDSequences::~BDDSequences(){
-	delete table;
-	cout << "No probleme bdd"<< endl;
+	delete[] table;
 }
 const map<char, int> BDDSequences::conversion = {  //cette map fait correspondre chaque caractère d'acide
 						   //aminé à un entier comme défini par le formalisme blast
