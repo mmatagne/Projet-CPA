@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 	clock_t t; //cette variable sert à mesurer le temps d'exécution
 	
 	//On initialise les paramètres par défaut.
-	char matrix_name[] = "BLOSUM62.txt";
+	string matrix_name= "BLOSUM62.txt";
 	int open_pen = 11;
 	int ext_pen = 1;
 	
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
 	{
 		if(!strcmp(argv[i],"-m"))
 		{
-			strcpy(matrix_name,argv[i+1]);
+			matrix_name = argv[i+1];
 		}
 		if(!strcmp(argv[i],"-gop"))
 		{

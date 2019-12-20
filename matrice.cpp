@@ -32,21 +32,20 @@ void Matrice::create_matrice() {
 	
 	ifstream fichier(filename);
 	if(fichier.is_open()){
+		string line;
 		int k = 0;
 		char ch;
-		
 		while(fichier >> noskipws >> ch) 
 		{
-
-			if(ch == '\n')break;
-			if(ch != ' '){
+			if(ch == '#') getline(fichier, line);
+			else if(ch == '\n')break;
+			else if(ch != ' '){
 				AA_order[k] = ch;
 				k++;
 			}
 			
 		}
 		
-		string line;
 		int i = 0;
 		
 		while(getline(fichier, line)  && i < k){
